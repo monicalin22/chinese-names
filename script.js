@@ -25,7 +25,7 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 	
 	ALL_DATA_LOADED = true;
 	createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
-	rank_chart(name_parallel_ranks_m)
+	rank_chart(name_parallel_ranks_m, "nation_recovery")
 });
 
 
@@ -65,6 +65,7 @@ rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.scheme
 	const margin = ({top: 20, right: 10, bottom: 20, left: 30})
 	const name_keys = ["rank_1950", "rank_1960", "rank_1970", "rank_1980", "rank_1990", "rank_2000"];
 	const height = data_rank.length * 3
+	const width  = 600;
 	const name_peak_rank_func = (name_parallel_ranks) => {
 	// create map with key rank and year and if a name peaks there, return it
 	let m = new Map();
@@ -122,7 +123,7 @@ rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.scheme
   
 	
 	const svg = d3.selectAll("#decade-rank-m")
-		.attr("viewBox", [0, 0, windowWidth, height]);
+		.attr("viewBox", [0, 0, width, height]);
   
 	const nameDisp = svg.append("text")
 	  .attr("x", (width)/1.5)
@@ -317,6 +318,19 @@ rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.scheme
 		  
   
 	  })
+
+
+	  
+	  	//const form = html`<form>${Object.assign(html`<select name=select>${theme_colours.domain().map(key => Object.assign(html`<option>`, {value: key, textContent: key}))}</select>`, {value: "rank_1950"})} <i style="font-size:smaller;">color encoding</i>`;
+		//d3.selectAll("#decade-rank-m-selector")
+		
+		//{theme_colours.domain().map(key => Object.assign(html`<option>`, {value: key, textContent: key}))}`, {value: "rank_1950"})}
+		
+		//form.select.onchange = () => (form.value = form.select.value, form.dispatchEvent(new CustomEvent("input")));
+		//form.select.onchange();
+
+		//let p = d3.selectAll("#decade-rank-m-selector");
+		//p.append(form);
   
   }
 
