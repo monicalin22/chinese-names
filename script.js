@@ -119,7 +119,7 @@ rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.scheme
 	const name_x = new Map(Array.from(name_keys, key => [key, d3.scaleLinear([1,100], [margin.top, height - margin.bottom])]))
 	const name_y = d3.scalePoint(name_keys, [margin.left, (width - margin.right)/1.5])
   
-	const data_maxrank = name_peak_rank_func(name_parallel_ranks_m)
+	const data_maxrank = name_peak_rank_func(data_rank)
   
   
 	
