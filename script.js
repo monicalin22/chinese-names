@@ -3,7 +3,8 @@ BASE_URL = "https://monicalin22.github.io/chinese-names/"
 ALL_URLS = [
 	"data/top50char.json",
 	"data/char_to_definition.json",
-	"data/char_override_dict.json"
+	"data/char_override_dict.json",
+	"data/name_parallel_ranks_m_final.json"
 ]
 
 ALL_URLS = ALL_URLS.map(url => BASE_URL + url);
@@ -20,6 +21,7 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 	top50char_data          = json[0]
 	char_to_definition_data = json[1];
 	char_override_dict_data = json[2];
+	name_parallel_ranks_m = json[3];
 	
 	ALL_DATA_LOADED = true;
 	createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
@@ -55,6 +57,266 @@ document.addEventListener("DOMContentLoaded", evt => {
 		}	
 	});
 });
+
+
+//Create historical rank chart
+chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeCategory10)) => {//(data, data_maxrank, keyz, theme_colours, height) => 
+	const margin = ({top: 20, right: 10, bottom: 20, left: 30})
+	const height = data_rank.length * 3
+	const name_peak_rank_func = (name_parallel_ranks) => {
+	// create map with key rank and year and if a name peaks there, return it
+	let m = new Map();
+	name_parallel_ranks.forEach(obj => {
+	  let maxrank = 200;
+	  let maxyear = "1950";
+	  
+	  if (obj.rank_1950 < maxrank) {
+		maxrank = obj.rank_1950;
+		maxyear = "1950";
+	  }
+	  if (obj.rank_1960 < maxrank) {
+		maxrank = obj.rank_1960;
+		maxyear = "1960";
+	  }
+	  if (obj.rank_1970 < maxrank) {
+		maxrank = obj.rank_1970;
+		maxyear = "1970";
+	  }
+	  if (obj.rank_1980 < maxrank) {
+		maxrank = obj.rank_1980;
+		maxyear = "1980";
+	  }
+	  if (obj.rank_1990 < maxrank) {
+		maxrank = obj.rank_1990;
+		maxyear = "1990";
+	  }
+	  if (obj.rank_2000 < maxrank) {
+		maxrank = obj.rank_2000;
+		maxyear = "2000";
+	  }
+  
+	  m.set(String(maxrank) + "rank_" + maxyear, obj.name)
+  
+	})
+  
+	return m;
+  }
+  
+	const line = d3.line()
+	  .curve(d3["curveNatural"])
+	  .defined(([key, value]) => (value != null && value <= 100))//&& value <= 100
+	  .y(([key, value]) => name_x.get(key)(value))
+	  .x(([key, value]) => {
+		console.log(key)
+		return name_y(key) - (value>100 ? name_y.step()/2 : 0)
+	})
+  
+  
+	const name_x = new Map(Array.from(name_keys, key => [key, d3.scaleLinear([1,100], [margin.top, height - margin.bottom])]))
+	const name_y = d3.scalePoint(name_keys, [margin.left, (width - margin.right)/1.5])
+  
+	const data_maxrank = name_peak_rank_func(name_parallel_ranks_m)
+  
+  
+	
+	const svg = d3.selectAll("#decade-rank-m")
+		.attr("viewBox", [0, 0, windowWidth, height]);
+  
+	const nameDisp = svg.append("text")
+	  .attr("x", (width)/1.5)
+	  .attr("y", "55")
+	  .attr("opacity", "0.0")
+	  .attr("lang", "zh-CN")
+	const themeDisp = svg.append("text")
+	  .attr("x", (width)/1.5)
+	  .attr("y", "75")
+	  .attr("opacity", "0.0")
+	  .attr("lang", "zh-CN")
+  
+	//let focus_theme = keyz;
+	let focus_theme = String(keyz).length > 0 ? String(keyz) : null;
+  
+	//draw lines
+	svg.append("g")
+		.attr("fill", "none")
+		.attr("stroke-width", 4.5)
+		.attr("stroke-opacity", 0.1)
+	  .selectAll("path")
+	  .data(data_rank)
+	  .join("path")
+		//.attr("stroke", d => d["theme"] === focus_theme ? theme_colours(d["theme"]) : theme_colours(d["theme"]))
+		//.attr("stroke", d => d["theme"] === "nation_recovery" ? theme_colours(d["theme"]) : "none")
+		//.attr("stroke", d => d["theme"] === "red" ? theme_colours(d["theme"]) : "none")
+		//.attr("stroke", d => d["theme"] === "moral" ? theme_colours(d["theme"]) : "none")
+		//.attr("stroke", d => d["theme"] == focus_theme ? theme_colours(d["theme"]) : "none")
+		.attr("stroke", d => {
+		  let themes = d["theme"].split(';');
+  
+		  //filter mode
+		  if(focus_theme != null){
+			return (themes.includes(focus_theme)) ? theme_colours(themes[0]) : "none";
+		  }
+		  else{
+			return theme_colours(themes[0])
+		  }
+		  
+		  
+		})
+	  
+		.attr("d", d => {
+			return line(d3.cross(name_keys, [d], (key, d) => [key, d[key]]))
+		})
+		.attr("data-name", d => d.name)
+		.on('mouseover', function (d, i) {
+			console.log(d)
+			d3.select(this).transition()
+				 .duration('50')
+				 .attr('stroke-opacity', '1')
+				 .attr('stroke-width', 7.5);
+			
+			nameDisp.html(`${d.target.__data__.name}`);
+			nameDisp.transition()
+				 .duration(50)
+				 .style("opacity", 1)
+  
+			themeDisp.html(`${d.target.__data__.meaning}`);
+			themeDisp.transition()
+				 .duration(50)
+				 .style("opacity", 1)
+  
+			d3.selectAll("rect")
+			  .filter(function() {
+				return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+			  })
+			  //.attr("width", height/50)
+			  .attr("stroke", "white")
+			  .attr("stroke-width", 2)
+			  
+	   })
+	   .on('mouseout', function (d, i) {
+			d3.select(this).transition()
+				 .duration('50')
+				 .attr('stroke-opacity', '0.1')
+				 .attr('stroke-width', 4.5);
+			d3.selectAll("rect")
+			  .filter(function() {
+				return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+			  })
+			.attr("width", height/100)
+			.attr("stroke-width", 0)
+	   })
+	  .append("title")
+		.text(d => d.name);
+  
+	
+		
+  
+	//draw axis
+	svg.append("g")
+	  .selectAll("g")
+	  .data(name_keys)
+	  .join("g")
+		.attr("transform", d => `translate(${name_y(d)},0)`)
+		.each(function(d) { d3.select(this).call(
+		  d3.axisLeft(name_x.get(d))
+			.ticks(100)
+			.tickFormat(d2 => {
+			  let code = String(d2) + d;
+			  if(data_maxrank.has(code)){
+				return data_maxrank.get(code);
+			  }
+			  else{
+				return ""
+			  }
+			  
+			}));
+		})
+		.call(g => g.append("text")
+		  .attr("y", margin.top)
+		  .attr("x", -6)
+		  .attr("text-anchor", "start")
+		  .attr("fill", "currentColor")
+		  .text(d => d))
+		.call(g => g.selectAll("text")
+		  .clone(true).lower()
+		  .attr("fill", "none")
+		  .attr("stroke-width", 5)
+		  .attr("stroke-linejoin", "round")
+		  .attr("stroke", "white"));
+  
+	//draw points
+	svg.append("g")
+	  .selectAll("rect")
+	  .data(data_rank)
+	  .join((enter) => {
+		  let g = enter;
+		  
+		  console.log(enter)
+		  name_keys.forEach(year => {
+			g.append('rect')
+				.attr("width", height/100)
+				.attr("height", height/100)
+				.attr("x", d => name_y(year) - height/200)
+				.attr("y", d => name_x.get(year)(d[year]) - height/200)
+				.attr("fill", d => {
+				  let themes = d["theme"].split(';');
+				  return (themes[0] === focus_theme) ? theme_colours(themes[0]) : focus_theme != null ? "none": theme_colours(themes[0]);
+				})
+				.attr("data-name", d => d.name)
+				
+				.on('mouseover', function (d, i) {
+					  nameDisp.html(`${d.target.__data__.name}`);
+					  nameDisp.transition()
+						   .duration(50)
+						   .style("opacity", 1)
+			
+					  themeDisp.html(`${d.target.__data__.meaning}`);
+					  themeDisp.transition()
+						   .duration(50)
+						   .style("opacity", 1)
+			
+					  d3.selectAll("path")
+						.filter(function() {
+						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+						}).transition()
+						   .duration('50')
+						   .attr('stroke-opacity', '1')
+						   .attr('stroke-width', 7.5);
+  
+					d3.selectAll("rect")
+						.filter(function() {
+						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+						}).transition()
+						   .duration('50')
+						   .attr("stroke", "white")
+							.attr("stroke-width", 2)
+				 })
+				 .on('mouseout', function (d, i) {
+						d3.selectAll("rect")
+						.filter(function() {
+						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+						}).transition()
+						   .duration('50')
+						   .attr("stroke", "white")
+							.attr("stroke-width", 0)
+						
+				   
+						d3.selectAll("path")
+						.filter(function() {
+						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+						}).transition()
+						   .duration('50')
+						   .attr('stroke-opacity', '0.1')
+						   .attr('stroke-width', 4.5);
+				 })
+			}
+			
+		  )
+		  
+  
+	  })
+  
+  }
 
 
 // Create the decades-prevalence visualization
