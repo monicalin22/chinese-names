@@ -1,35 +1,30 @@
-// Helpers to read in JSON file from web and retrieve data
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    } 
-    rawFile.send(null);
-}
+BASE_URL = "https://monicalin22.github.io/chinese-names/"
 
-ALL_DATA_LOADED = false;
+ALL_URLS = [
+	"data/top50char.json",
+	"data/char_to_definition.json",
+	"data/char_override_dict.json"
+]
+
+ALL_URLS = ALL_URLS.map(url => BASE_URL + url);
 
 var top50char_data;
 var char_to_definition_data;
 var char_override_dict_data;
 
-readTextFile("https://monicalin22.github.io/chinese-names/data/top50char.json", function(text){
-	top50char_data = JSON.parse(text);
+var ALL_DATA_LOADED = false;
+Promise.all(ALL_URLS.map(u => fetch(u)))
+.then(responses =>
+    Promise.all(responses.map(res => res.json()))
+).then(json => {
+	top50char_data          = json[0]
+	char_to_definition_data = json[1];
+	char_override_dict_data = json[2];
 	
-	readTextFile("https://monicalin22.github.io/chinese-names/data/char_to_definition.json", function(text) {
-		char_to_definition_data = JSON.parse(text);
-		
-		readTextFile("https://monicalin22.github.io/chinese-names/data/char_override_dict.json", function(text) {
-			char_override_dict_data = JSON.parse(text);
-			ALL_DATA_LOADED = true;
-			createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
-		});
-	});
+	ALL_DATA_LOADED = true;
+	createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
 });
+
 
 var decade2 = 1950;
 
