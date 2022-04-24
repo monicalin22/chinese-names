@@ -107,28 +107,28 @@ createVisual = function(data, char_to_definition, char_override_dict) {
 	const num_height = 5;
 
 	// Display settings
-	const windowHeight = 400 * 0.20;
-	const windowWidth  = 600 * 0.20;
+	const windowHeight = 400;
+	const windowWidth  = 600;
 	const MULT         = 0.96;
 	const squareHeight = windowHeight / num_height * MULT;
 	const squareWidth  = windowWidth  / num_width  * MULT;
 	
 	// const svg = d3.create("svg").attr('viewBox', [0, 0, windowWidth, windowHeight]);
 	const svg = d3.selectAll("#decade-prevalence-vis").attr('viewBox', [0, 0, windowWidth, windowHeight]);
-
+	
 	let dict = {};
-
-	let x = d3.scaleLinear().domain([0, num_width]).range([0, windowWidth]);
+	
+	let x = d3.scaleLinear().domain([0,  num_width]).range([0, windowWidth]);
 	let y = d3.scaleLinear().domain([0, num_height]).range([0, windowHeight]);
 
 	// Text settings
-	let font_size         = "0.25rem";
+	let font_size         = "1.50rem";
 
-	const x_text_offset   = 4; // 15;
-	const y_text_offset   = 9; // 44;
+	const x_text_offset   = 15; // 15;
+	const y_text_offset   = 44; // 44;
 	
 	const x_def_offset    = -2;
-	const y_def_offset    = 4;
+	const y_def_offset    = 20;
 
 	// 1950 characters
 	let chars1950 = post[0];
@@ -178,9 +178,9 @@ createVisual = function(data, char_to_definition, char_override_dict) {
 			//let defn = char_to_definition[Array.from(chars1950)[k]].split(";")[0].split(",")[0];
 			let defn = !char_override_dict.hasOwnProperty(Array.from(chars1950)[k]) ? char_to_definition[Array.from(chars1950)[k]].split(";")[0].split(",")[0] : String(char_override_dict[Array.from(chars1950)[k]]);
 
-			let definition_size   = "0.13rem";
-			if (defn.length >= 15) {definition_size = "0.07rem"};
-			if (defn.length <= 5)  {definition_size = "0.16rem"};
+			let definition_size   = "0.50rem";
+			if (defn.length >= 15) {definition_size = "0.40rem"};
+			if (defn.length <= 5)  {definition_size = "0.75rem"};
 
 			// Definition text
 			let text2 = g
