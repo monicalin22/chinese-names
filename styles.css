@@ -1,0 +1,15 @@
+#vis-container {
+	width:            65%;
+	margin:           auto;
+	margin-top:       50px;
+	padding:          10px 20px 10px 20px;
+	background-color: #F0F0F0;
+}
+
+* {
+	font-family: "Open Sans";
+}
+
+h1 {
+	font-size: 3.0rem;
+}
