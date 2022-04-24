@@ -12,22 +12,24 @@ function readTextFile(file, callback) {
 }
 
 readTextFile("https://monicalin22.github.io/chinese-names/data/top50char.json", function(text){
-    var top50char_data = JSON.parse(text);
+	var top50char_data = JSON.parse(text);
 	
-	readTextFile("https://monicalin22.github.io/chinese-names/data/char_override_dict.json", function(text) {
-		var char_override_dict_data = JSON.parse(text);
+	readTextFile("https://monicalin22.github.io/chinese-names/data/char_to_definition.json", function(text) {
+		var char_to_definition_data = JSON.parse(text);
 		
-		createVisual(top50char_data, char_override_dict_data);
-	}
+		readTextFile("https://monicalin22.github.io/chinese-names/data/char_override_dict.json", function(text) {
+			var char_override_dict_data = JSON.parse(text);
+			
+			createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
+		});
+	});
 });
-
-
 
 
 const decade2 = 1960;
 
 
-createVisual = data => {
+createVisual = function(data, char_to_definition, char_override_dict) {
 
 	let char1950 = new Set(data.map(obj => obj["char.all.1950"]));
 	let char1960 = new Set(data.map(obj => obj["char.all.1960"]));
