@@ -204,7 +204,6 @@ rank_chart = (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeC
 		.defined(([key, value]) => (value != null && value <= 100))//&& value <= 100
 		.y(([key, value]) => name_x.get(key)(value))
 		.x(([key, value]) => {
-			console.log(key)
 			return name_y(key) - (value > 100 ? name_y.step() / 2 : 0)
 		})
 
@@ -262,7 +261,6 @@ rank_chart = (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeC
 		})
 		.attr("data-name", d => d.name)
 		.on('mouseover', function (d, i) {
-			console.log(d)
 			d3.select(this).transition()
 				.duration('50')
 				.attr('stroke-opacity', '1')
@@ -345,8 +343,6 @@ rank_chart = (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeC
 		.data(data_rank)
 		.join((enter) => {
 			let g = enter;
-
-			console.log(enter)
 			name_keys.forEach(year => {
 				g.append('rect')
 					.attr("width", height / 100)
@@ -612,9 +608,9 @@ getYYData = function () {
 	interactive_chart_data = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, gender, decade3);
 	top_f = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, 'f', decade3);
 	top_m = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, 'm', decade3);
-
 	combined_interactive_chart_data = top_f.concat(top_m);
 
+	
 	avg_value = calculateAvg(gender, decade3);
 	f_avg_value = calculateAvg('f', decade3);
 	m_avg_value = calculateAvg('m', decade3);
@@ -650,8 +646,6 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 	// Add X axis
 	var xScale = d3.scaleLinear()
 		.domain([1, 5])
-		//.domain([0, top10CharFemale1970Properties.length])
-		//.domain(top10CharFemale1970Properties.map(char => char["char"]))
 		.range([0, width]);
 
 	// Add Y axis
@@ -819,7 +813,7 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 	console.log("Finished with visualization")
 };
 
-createYYCombinedVisualization = function (m_avg_value, f_avg_value) {
+createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
 	var margin = { top: 30, right: 30, bottom: 30, left: 60 };
 	var width = 1100 - margin.left - margin.right;
 	var height = 900 - margin.top - margin.bottom;
