@@ -36,39 +36,118 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 		rank_chart(name_parallel_ranks_m, "nation_recovery")
 
 		// Yu-Ying's visualization
-		var data = getYYData();
-		var interactive_chart_data = data[0];
-		var combined_interactive_chart_data = data[1];
-		var avg_value = data[2];
-		createYYVisualization(interactive_chart_data, avg_value);
+		createAllYYVisuals();
 	});
 
+createAllYYVisuals = function () {
+	var data = getYYData();
+	var interactive_chart_data = data[0];
+	var combined_interactive_chart_data = data[1];
+	var avg_value = data[2];
+	var m_avg_value = data[3];
+	var f_avg_value = data[4];
+	createYYVisualization(top50char_data, interactive_chart_data, avg_value);
+	createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+}
+
 var decade2 = 1950;
+var decade3 = 1950;
+
+// Settings
+num_of_char = 25;
+gender = "m"
 
 update_decade_in_html = () => {
 	document.getElementById("output").innerHTML = decade2;
+	document.getElementById("decade-yy-output").innerHTML = decade3;
+	document.getElementById("num-char-output").innerHTML = num_of_char;
 }
 
 document.addEventListener("DOMContentLoaded", evt => {
 	update_decade_in_html();
 
+	// Slider for Jeffrey
 	decade_select_slider = document.getElementById("decade-selector");
 
+	// Sliders and dropdowns for Yu-Ying
+	decade_select_slider_yy = document.getElementById("decade-selector-yy");
+	num_char_slider_yy = document.getElementById("num-char-selector");
+	gender_dropdown_yy = document.getElementById("gender-selector");
+
+	decade_select_slider_yy.addEventListener("input", evt => {
+		year_select_yy = decade_select_slider_yy.value;
+		decade_select_yy = Math.floor(year_select_yy / 10) * 10;
+		if (ALL_DATA_LOADED) {
+			if (decade_select_yy != decade3) {
+				decade3 = decade_select_yy;
+				d3.selectAll("#warmth-competence-vis").selectAll("*").remove();
+				d3.selectAll("#combined-warmth-competence-vis").selectAll("*").remove();
+				createAllYYVisuals();
+				update_decade_in_html();
+			}
+		}
+	});
+
+	num_char_slider_yy.addEventListener("input", evt => {
+		num_char_select_yy = num_char_slider_yy.value;
+		if (ALL_DATA_LOADED) {
+			if (num_char_select_yy != num_of_char) {
+				num_of_char = num_char_select_yy;
+				d3.selectAll("#warmth-competence-vis").selectAll("*").remove();
+				d3.selectAll("#combined-warmth-competence-vis").selectAll("*").remove();
+				createAllYYVisuals();
+				update_decade_in_html();
+			}
+		}
+	});
+
+	gender_dropdown_yy.addEventListener("change", evt => {
+		gender_select_yy = gender_dropdown_yy.value;
+		if (ALL_DATA_LOADED) {
+			if (gender_select_yy != gender) {
+				gender = gender_select_yy;
+				d3.selectAll("#warmth-competence-vis").selectAll("*").remove();
+				d3.selectAll("#combined-warmth-competence-vis").selectAll("*").remove();
+				createAllYYVisuals();
+				update_decade_in_html();
+			}
+		}
+	});
+
 	decade_select_slider.addEventListener("input", evt => {
+
+		// For Jeffrey's visual
 		year_select = decade_select_slider.value;
 		decade_select = Math.floor(year_select / 10) * 10;
 
-		if (ALL_DATA_LOADED && (decade_select != decade2)) {
-			let svg = d3.selectAll("#decade-prevalence-vis");
-			svg.selectAll("*").remove();
+		if (ALL_DATA_LOADED) {
 
-			// Create decade prevalance visualization
-			decade2 = decade_select;
-			update_decade_in_html();
-			createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
+			if (decade_select != decade2) {
+				d3.selectAll("#decade-prevalence-vis").selectAll("*").remove();
 
-			console.log("Decade selected: " + decade_select);
-			console.log("Visual created/updated!");
+				// Create decade prevalance visualization
+				decade2 = decade_select;
+				update_decade_in_html();
+				createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
+			}
+
+			if (decade_select_yy != decade3) {
+				// Create Yu-Ying's visual updated on new inputs
+				createYYVisualization(top50char_data, interactive_chart_data, avg_value);
+				createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+			}
+
+			if (num_char_select_yy != num_of_char) {
+				// Create Yu-Ying's visual updated on new inputs
+				createYYVisualization(top50char_data, interactive_chart_data, avg_value);
+				createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+			}
+
+			if (gender_select_yy != gender) {
+				// Create Yu-Ying's visual updated on new inputs
+				createYYVisualization(top50char_data, interactive_chart_data, avg_value);
+				createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+			}
 		}
 	});
 });
@@ -488,7 +567,7 @@ createVisual = function (data, char_to_definition, char_override_dict) {
 	}
 }
 
-makeChartData = function makeChartData(data, num, gender, year) {
+makeChartData = function makeChartData(data, charData, char_to_definition, num, gender, year) {
 	let total = 0;
 
 	let top_char_array = data.slice(0, num).map(obj => {
@@ -521,7 +600,7 @@ makeChartData = function makeChartData(data, num, gender, year) {
 }
 
 calculateAvg = function calculateAvg(gender, year) {
-	let char_data = makeChartData(top50char_data, 50, gender, year)
+	let char_data = makeChartData(top50char_data, given_name_data, char_to_definition_data, 50, gender, year)
 	let avg_warmth = char_data.reduce((total, next) => total + next.warmth, 0) / 50;
 	let weighted_avg_warmth = char_data.reduce((total, next) => total + next.weight * next.warmth, 0);
 	let avg_competence = char_data.reduce((total, next) => total + next.competence, 0) / 50;
@@ -529,27 +608,22 @@ calculateAvg = function calculateAvg(gender, year) {
 	return { avg_warmth, weighted_avg_warmth, avg_competence, weighted_avg_competence }
 }
 
-// Settings
-num_of_char = 26;
-year = 1980;
-gender = "m"
-
 getYYData = function () {
-	interactive_chart_data = makeChartData(top50char_data, num_of_char, gender, year);
-	top_f = makeChartData(top50char_data, num_of_char, 'f', year);
-	top_m = makeChartData(top50char_data, num_of_char, 'm', year);
+	interactive_chart_data = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, gender, decade3);
+	top_f = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, 'f', decade3);
+	top_m = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, 'm', decade3);
 
 	combined_interactive_chart_data = top_f.concat(top_m);
 
-	avg_value = calculateAvg(gender, year);
-	f_avg_value = calculateAvg('f', year);
-	m_avg_value = calculateAvg('m', year);
+	avg_value = calculateAvg(gender, decade3);
+	f_avg_value = calculateAvg('f', decade3);
+	m_avg_value = calculateAvg('m', decade3);
 
-	return [interactive_chart_data, combined_interactive_chart_data, avg_value];
+	return [interactive_chart_data, combined_interactive_chart_data, avg_value, m_avg_value, f_avg_value];
 }
 
 
-createYYVisualization = function (interactive_chart_data, avg_value) {
+createYYVisualization = function (data, interactive_chart_data, avg_value) {
 	var margin = { top: 30, right: 30, bottom: 30, left: 60 };
 	var width = 1100 - margin.left - margin.right;
 	var height = 900 - margin.top - margin.bottom;
@@ -743,4 +817,224 @@ createYYVisualization = function (interactive_chart_data, avg_value) {
 		});
 
 	console.log("Finished with visualization")
+};
+
+createYYCombinedVisualization = function (m_avg_value, f_avg_value) {
+	var margin = { top: 30, right: 30, bottom: 30, left: 60 };
+	var width = 1100 - margin.left - margin.right;
+	var height = 900 - margin.top - margin.bottom;
+
+	const svg = d3.selectAll("#combined-warmth-competence-vis")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.style('border', '1px dotted #999')
+
+	// Add X axis label
+	svg.append("text")
+		.attr("text-anchor", "end")
+		.attr("x", width)
+		.attr("y", height + margin.bottom)
+		.text("Warmth")
+	// Add Y axis label
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", margin.left)
+		.attr("y", margin.top / 2)
+		.text("Competence")
+
+	// Add X axis
+	var xScale = d3.scaleLinear()
+		.domain([1, 5])
+		.range([0, width]);
+
+	// Add Y axis
+	var yScale = d3.scaleLinear()
+		.domain([5, 1])
+		.range([height, 0]);
+
+	// Margins for X, Y Axis
+	let xMargin = xScale.copy().range([margin.left, width - margin.right])
+	let yMargin = yScale.copy().range([margin.top, height - margin.bottom])
+
+	// Add axis notes
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xMargin(3))
+		.attr("y", height + 5)
+		.attr("font-size", 12)
+		.text("medium likelihood")
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xMargin(1))
+		.attr("y", height + 5)
+		.attr("font-size", 12)
+		.text("strongly unlikely to have")
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xMargin(5))
+		.attr("y", height + 5)
+		.attr("font-size", 12)
+		.text("strongly likely to have")
+
+	// Add Male avg line of competence 
+	svg.append("line")
+		.attr('x1', xMargin(1))
+		.attr('x2', xMargin(5))
+		.attr('y1', yMargin(m_avg_value.weighted_avg_competence))
+		.attr('y2', yMargin(m_avg_value.weighted_avg_competence))
+		.attr("stroke-width", 2)
+		.attr("stroke", "lightblue")
+		.attr("stroke-dasharray", "15,15")
+	// Add Male avg line of warmth 
+	svg.append("line")
+		.attr('x1', xMargin(m_avg_value.weighted_avg_warmth))
+		.attr('x2', xMargin(m_avg_value.weighted_avg_warmth))
+		.attr('y1', yMargin(1))
+		.attr('y2', yMargin(5))
+		.attr("stroke-width", 2)
+		.attr("stroke", "lightblue")
+		.attr("stroke-dasharray", "15,15")
+
+	// Add Female avg line of competence 
+	svg.append("line")
+		.attr('x1', xMargin(1))
+		.attr('x2', xMargin(5))
+		.attr('y1', yMargin(f_avg_value.weighted_avg_competence))
+		.attr('y2', yMargin(f_avg_value.weighted_avg_competence))
+		.attr("stroke-width", 2)
+		.attr("stroke", "pink")
+		.attr("stroke-dasharray", "2,2")
+	// Add Female avg line of warmth 
+	svg.append("line")
+		.attr('x1', xMargin(f_avg_value.weighted_avg_warmth))
+		.attr('x2', xMargin(f_avg_value.weighted_avg_warmth))
+		.attr('y1', yMargin(1))
+		.attr('y2', yMargin(5))
+		.attr("stroke-width", 2)
+		.attr("stroke", "pink")
+		.attr("stroke-dasharray", "2,2")
+
+	// Append X axis
+	svg.append("g")
+		.attr("transform", `translate(0, ${height - margin.bottom})`)
+		.call(d3.axisBottom(xMargin));
+	// Append Y axis
+	svg.append("g")
+		.attr('transform', `translate(${margin.left}, 0)`)
+		.call(d3.axisLeft(yMargin));
+
+	// Append instruction
+	var instruction = svg.append("g")
+		.attr("id", "instruction2")
+		.attr("transform", (d, i) => `translate(100,100)`)
+
+	instruction.append("text")
+		.style("fill", "black")
+		.style("opacity", "1")
+		.text("Hover on the dots")
+		.attr("x", 10)
+		.attr("y", 25)
+
+	// mousemove event function
+	var showTooltip = function (evt) {
+		// hide instruction
+		d3.select("#instruction2").style("visibility", "hidden")
+
+		const data = d3.select(this).datum()
+
+		var xpos = d3.select(this).attr('x') || d3.select(this).attr('cx')
+		var ypos = d3.select(this).attr('y') || d3.select(this).attr('cy')
+		// Create the tooltip label as an SVG group `tgrp` with a text and a rect inside
+		var tgrp = svg.append("g")
+			.attr("id", "tooltip")
+			.attr("transform", (d, i) => `translate(100,100)`)
+		//.attr("transform", (d, i) => `translate(${xpos},${ypos})`)
+
+		tgrp.append("text")
+			.style("fill", "black")
+			.style("opacity", "1")
+			.append("tspan")
+			.text(`Char: ${data.char}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+			.append("tspan")
+			.text(`Pinyin: ${data.pinyin}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+			.append("tspan")
+			.text(`Gender: ${data.gender === 'f' ? "Female" : "Male"}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+			.append("tspan")
+			.text(`Rank: ${data.rank}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+			.append("tspan")
+			.text(`Warmth: ${data.warmth}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+			.append("tspan")
+			.text(`Competence: ${data.competence}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+			.append("tspan")
+			.text(`Translation: ${data.translation}`)
+			.attr("x", 0)
+			.attr("dx", 10)
+			.attr("dy", 25)
+	}
+
+	// Add dots
+	var gdots = svg.selectAll("g.dot")
+		.data(combined_interactive_chart_data)
+		.enter().append('g')
+
+	// append circle for female
+	gdots.append("circle")
+		.filter(d => d.gender === 'f')
+		.attr("class", "dot")
+		.attr("r", 18)
+		.attr("cx", function (d) { return xMargin(d.warmth); })
+		.attr("cy", function (d) { return yMargin(d.competence); })
+		.style("fill", (d) => d.gender === "f" ? "pink" : "lightblue")
+		.style("fill-opacity", .4)
+		.on("mouseover", showTooltip)
+		.on("mouseout", function (d) {
+			d3.select("#tooltip").remove()
+			d3.select("#instruction2").style("visibility", "visible")
+		});
+
+	// append rect for male
+	const rectWidth = 30
+	gdots.append("rect")
+		.filter(d => d.gender === 'm')
+		.attr("x", d => { return xMargin(d.warmth) - rectWidth / 2 })
+		.attr("y", d => { return yMargin(d.competence) - rectWidth / 2 })
+		.attr("width", 30)
+		.attr("height", 30)
+		.style("fill", (d) => d.gender === "f" ? "pink" : "lightblue")
+		.style("fill-opacity", .4)
+		.on("mouseover", showTooltip)
+		.on("mouseout", function (d) {
+			d3.select("#tooltip").remove()
+			d3.select("#instruction2").style("visibility", "visible")
+		});
+
+	gdots.append("text")
+		.text(function (d) { return d.char })
+		.attr("x", function (d) { return xMargin(d.warmth); })
+		.attr("y", function (d) { return yMargin(d.competence); })
+		.style("text-anchor", "middle")
+		.style("alignment-baseline", "middle")
+		.on("mouseover", showTooltip)
+		.on("mouseout", function (d) {
+			d3.select("#tooltip").remove()
+			d3.select("#instruction2").style("visibility", "visible")
+		});
 };

@@ -12,28 +12,42 @@
 
 <body>
 	<div id="vis-container">
-		<h1>The Annals of Chinese Names</h1>
+		<h1>Mainland Chinese Names: Meaning, Gender, and Modern History</h1>
 		<p>Monica Lin, Brian Ma, Jeffrey Luo, Yu-Ying Lee</p>
+
+
 		<h3>History</h3>
-		<p>Display parallel chart here</p>
-		<h3>Prevalence Through Decades</h3>
-
-
-		<input id="decade-selector" type="range" min="1950" max="2000" value="1950" class="slider">
-		Year selected: <output id="output"></output>
-
-		<svg id="decade-prevalence-vis"></svg>
-
-		<h3>Some Other Visuals</h3>
-		<svg id="warmth-competence-vis"></svg>
-
-
 		<form id="decade-rank-m-selector_form">
 			<select name="decade-rank-m-selector" id="decade-rank-m-selector">
 				<option value="volvo">Volvo</option>
 			</select>
 		</form>
 		<svg id="decade-rank-m"></svg>
+
+
+		<h3>Prevalence Through Decades</h3>
+		<input id="decade-selector" type="range" min="1950" max="2000" value="1950" class="slider">
+		Decade selected: <output id="output"></output>
+		<svg id="decade-prevalence-vis"></svg>
+
+
+		<h3>Warmth and Competence</h3>
+		Select Number of Characters:
+		<input id="num-char-selector" type="range" min="1" max="50" value="25" class="slider">
+		<output id="num-char-output"></output><br>
+
+		Select Decade:
+		<input id="decade-selector-yy" type="range" min="1950" max="2000" value="1950" class="slider">
+		<output id="decade-yy-output"></output><br>
+
+		Select Gender:
+		<select id="gender-selector">
+			<option value="m" select="selected">Male</option>
+			<option value="f">Female</option>
+		</select>
+
+		<svg id="warmth-competence-vis"></svg>
+		<svg id="combined-warmth-competence-vis"></svg>
 	</div>
 </body>
 
