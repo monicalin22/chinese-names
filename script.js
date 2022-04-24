@@ -627,7 +627,7 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 	const svg = d3.selectAll("#warmth-competence-vis")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
-		.style('border', '1px dotted #999')
+		.style('border', '1px dotted #999');
 
 	// Add X axis label
 	svg.append("text")
