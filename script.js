@@ -620,20 +620,20 @@ getYYData = function () {
 
 
 createYYVisualization = function (data, interactive_chart_data, avg_value) {
-	var margin = { top: 30, right: 30, bottom: 30, left: 60 };
+	var margin = { top: 30, right: 30, bottom: 60, left: 60 };
 	var width = 1100 - margin.left - margin.right;
 	var height = 900 - margin.top - margin.bottom;
-
-	const svg = d3.selectAll("#warmth-competence-vis")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
+	const svg = d3.selectAll("#warmth-competence-vis").attr("viewBox", [0, 0, width, height])
+	//const svg = d3.selectAll("#warmth-competence-vis")
+		//.attr("width", width + margin.left + margin.right)
+		//.attr("height", height + margin.top + margin.bottom)
 		.style('border', '1px dotted #999');
 
 	// Add X axis label
 	svg.append("text")
 		.attr("text-anchor", "end")
 		.attr("x", width)
-		.attr("y", height + margin.bottom)
+		.attr("y", height - margin.bottom/3.5)
 		.text("Warmth")
 
 	// Add Y axis label
@@ -661,19 +661,19 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("x", xMargin(3))
-		.attr("y", height + 5)
+		.attr("y", height-margin.bottom/2)
 		.attr("font-size", 12)
 		.text("medium likelihood")
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("x", xMargin(1))
-		.attr("y", height + 5)
+		.attr("y", height-margin.bottom/2)
 		.attr("font-size", 12)
 		.text("strongly unlikely to have")
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("x", xMargin(5))
-		.attr("y", height + 5)
+		.attr("y", height-margin.bottom/2)
 		.attr("font-size", 12)
 		.text("strongly likely to have")
 
@@ -814,20 +814,20 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 };
 
 createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
-	var margin = { top: 30, right: 30, bottom: 30, left: 60 };
+	var margin = { top: 30, right: 30, bottom: 60, left: 60 };
 	var width = 1100 - margin.left - margin.right;
 	var height = 900 - margin.top - margin.bottom;
-
-	const svg = d3.selectAll("#combined-warmth-competence-vis")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
+	const svg = d3.selectAll("#combined-warmth-competence-vis").attr("viewBox", [0, 0, width, height])
+	//const svg = d3.selectAll("#combined-warmth-competence-vis")
+		//.attr("width", width + margin.left + margin.right)
+		//.attr("height", height + margin.top + margin.bottom)
 		.style('border', '1px dotted #999')
 
 	// Add X axis label
 	svg.append("text")
 		.attr("text-anchor", "end")
 		.attr("x", width)
-		.attr("y", height + margin.bottom)
+		.attr("y", height-margin.bottom/3.5)
 		.text("Warmth")
 	// Add Y axis label
 	svg.append("text")
@@ -854,19 +854,19 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("x", xMargin(3))
-		.attr("y", height + 5)
+		.attr("y", height-margin.bottom/2)
 		.attr("font-size", 12)
 		.text("medium likelihood")
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("x", xMargin(1))
-		.attr("y", height + 5)
+		.attr("y", height-margin.bottom/2)
 		.attr("font-size", 12)
 		.text("strongly unlikely to have")
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("x", xMargin(5))
-		.attr("y", height + 5)
+		.attr("y", height-margin.bottom/2)
 		.attr("font-size", 12)
 		.text("strongly likely to have")
 
