@@ -34,7 +34,8 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 		createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
 
 		// Brian's visualization
-		rank_chart(name_parallel_ranks_m, "")
+		rank_chart("decade-rank-m", name_parallel_ranks_m, "");
+		rank_chart("decade-rank-m-nation", name_parallel_ranks_m, "nation");
 
 		// Yu-Ying's visualization
 		createAllYYVisuals();
@@ -155,10 +156,14 @@ document.addEventListener("DOMContentLoaded", evt => {
 
 
 //Create historical rank chart
-rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeCategory10)) => {//(data, data_maxrank, keyz, theme_colours, height) => 
+rank_chart =  (svgname, data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeCategory10)) => {//(data, data_maxrank, keyz, theme_colours, height) => 
+	const svg = d3.selectAll(`#${svgname}`)
+		.attr("viewBox", "0 0 700 510")
+		.attr("preserveAspectRatio", "xMinYMin meet");
+	
 	const margin = ({top: 20, right: 10, bottom: 20, left: 30})
-	const height = 600;
-	const width = 600;
+	const height = 510;
+	const width = 700;
 	const meaning_dict = new Map();
 	const name_keys = ["rank_1950", "rank_1960", "rank_1970", "rank_1980", "rank_1990", "rank_2000"];
   
@@ -230,8 +235,7 @@ rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.scheme
   
   
 	
-	const svg = d3.create("svg")
-		.attr("viewBox", [0, 0, width, height]);
+	
   
 	const nameDisp = svg.append("text")
 	  .attr("x", (width)/1.5)
@@ -504,7 +508,7 @@ rank_chart =  (data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.scheme
 	  })
   
   
-	return svg.node();
+	//return svg.node();
   }
 
 
