@@ -60,6 +60,8 @@ createAllYYVisuals = function () {
 	var char_input = data[6]
 	createYYVisualization(top50char_data, interactive_chart_data, avg_value);
 	createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+	// remove the name ppm chart first so the red rects opacity won't get affected
+	d3.selectAll("#character_ppm").selectAll("*").remove();
 	createYYCharPpmVis(line_chart_data, char_input)
 }
 
