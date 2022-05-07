@@ -165,13 +165,18 @@ document.addEventListener("DOMContentLoaded", evt => {
 //Create historical rank chart
 rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(data, data_maxrank, keyz, theme_colours, height) => 
 	const theme_colours = d3.scaleOrdinal(d3.schemeCategory10);
-	const height = 400;
+	let height = 400;
+	let width = 700;
+	if (!interactable){
+		height = 400;
+		width = 500;
+	}
 	const svg = d3.selectAll(`#${svgname}`)
-		.attr("viewBox", `0 0 700 ${height}`)
+		.attr("viewBox", `0 0 ${width} ${height}`)
 		.attr("preserveAspectRatio", "xMinYMin meet");
 	
 	const margin = ({top: 20, right: 10, bottom: 20, left: 30})
-	const width = 700;
+	
 	const meaning_dict = new Map();
 	const name_keys = ["rank_1950", "rank_1960", "rank_1970", "rank_1980", "rank_1990", "rank_2000"];
   
