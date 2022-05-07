@@ -292,17 +292,17 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 
   const nameDisp = svg.append("text")
     .attr("x", (width)/1.5 + 10)
-    .attr("y", "55")
+    .attr("y", "35")
     .attr("opacity", "0.0")
     .attr("lang", "zh-CN")
-  const themeDisp = svg.append("text")
-    .attr("x", (width)/1.5 + 10)
-    .attr("y", "75")
-    .attr("opacity", "0.0")
-    .attr("lang", "zh-CN")
+  //const themeDisp = svg.append("text")
+    //.attr("x", (width)/1.5 + 10)
+    //.attr("y", "75")
+    //.attr("opacity", "0.0")
+    //.attr("lang", "zh-CN")
   const meaningDispContainer = svg.append("foreignObject")
   	.attr("x", (width)/1.5 + 10)
-	.attr("y", "95")
+	.attr("y", "45")
 	//.attr("opacity", "1")
 	.attr("width", (width)/4 - 10)
 	//.attr("width", "20")
@@ -413,6 +413,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       .each(function(d) { d3.select(this).call(
         d3.axisLeft(name_x.get(d))
           .ticks(100)
+		  .tickSize(1)
           .tickFormat(d2 => {
             let code = String(d2) + d;
             if(data_maxrank.has(code)){
@@ -614,7 +615,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       .selectAll(".labelPoint g")
       .data(extendedThemes).enter().append("g")
       //.attr("transform", (d, i) => { return `translate(${parseInt((width)/1.5)} ${75 + 20*i})`});
-      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 20*i})`)
+      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 17*i})`)
       .attr("class", "labelPoint")
     
     legend.append("rect")
@@ -656,10 +657,26 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
         })
     legend.append("text")
         .attr("x", (d,i) => 30)
-        .attr("y", (d,i) =>  0 )
-        .attr("dy", "0.35em")
+        .attr("y", (d,i) =>  3 )
+        .attr("dy", "0.25em")
         .attr("fill", "black")
-        .text(d => d);
+        .text(d => d)
+		.on("click", (d,i) => {
+			if(interactable){
+				const index = focus_theme.indexOf(d.target.__data__);
+				if (index > -1) {
+					focus_theme.splice(index, 1); // 2nd parameter means remove one item only
+				}
+				else{
+					focus_theme.push(d.target.__data__);
+				}
+
+				renderPaths();
+				renderAxis();
+				renderPoints();
+				renderLegend();
+			}
+		})
   }
 
   renderLegend();
