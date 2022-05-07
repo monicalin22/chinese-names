@@ -195,8 +195,9 @@ document.addEventListener("DOMContentLoaded", evt => {
 
 
 //Create historical rank chart
+const theme_colours = d3.scaleOrdinal(d3.schemeCategory10);
 rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(data, data_maxrank, keyz, theme_colours, height) => 
-	const theme_colours = d3.scaleOrdinal(d3.schemeCategory10);
+	
 	let height = 400;
 	let width = 700;
 	if (!interactable){
@@ -218,6 +219,32 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
   
 	const line_transp = []
   const line_size = []
+
+  const dispTextDict = new Map([
+	['rank_1950', 'pre-1960s'],
+	['rank_1960', '1960s'],
+	['rank_1970', '1970s'],
+	['rank_1980', '1980s'],
+	['rank_1990', '1990s'],
+	['rank_2000', '2000s'],
+	['one', 'Single Character'],
+	['family', 'Family'],
+	['happy', 'Joy and Happiness'],
+	['red', 'Red'],
+	['color', 'Colour'],
+	['quality', 'Positive Qualities'],
+	['strong', 'Strength'],
+	['smart', 'Intelligence'],
+	['precious', 'Preciousness'],
+	['good_life', 'Long or Auspicous Life'],
+	['achievement', 'Achievement'],
+	['army', 'Military'],
+	['moral', 'Morals and Ethics'],
+	['nation', 'Nation and Nationhood'],
+	['plants', 'Flora'],
+	['nature', 'Natural Phenomena'],
+	['beauty', 'Beauty'],
+  ])
   
   
   let curr_highlighted = "";
@@ -439,7 +466,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
         .attr("text-anchor", "start")
         .attr("fill", "currentColor")
         .attr("class", "axisText")
-        .text(d => d))
+        .text(d => dispTextDict.get(d)))
       .call(g => g.selectAll("text")
         .clone(true).lower()
         .attr("fill", "none")
@@ -659,8 +686,9 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
         .attr("x", (d,i) => 30)
         .attr("y", (d,i) =>  3 )
         .attr("dy", "0.25em")
+		.attr("font-size", "0.7em")
         .attr("fill", "black")
-        .text(d => d)
+        .text(d => dispTextDict.get(d))
 		.on("click", (d,i) => {
 			if(interactable){
 				const index = focus_theme.indexOf(d.target.__data__);
