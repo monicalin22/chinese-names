@@ -46,6 +46,7 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 
 		// Yu-Ying's visualization
 		createAllYYVisuals();
+
 	});
 
 createAllYYVisuals = function () {
@@ -55,8 +56,15 @@ createAllYYVisuals = function () {
 	var avg_value = data[2];
 	var m_avg_value = data[3];
 	var f_avg_value = data[4];
+	var line_chart_data = data[5]
+	var char_input = data[6]
 	createYYVisualization(top50char_data, interactive_chart_data, avg_value);
 	createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+	createYYCharPpmVis(line_chart_data, char_input)
+}
+
+createYY_ppm_vis = function () {
+
 }
 
 var decade2 = 1950;
@@ -82,6 +90,7 @@ document.addEventListener("DOMContentLoaded", evt => {
 	decade_select_slider_yy = document.getElementById("decade-selector-yy");
 	num_char_slider_yy = document.getElementById("num-char-selector");
 	gender_dropdown_yy = document.getElementById("gender-selector");
+	character_input_yy = document.getElementById("char_input")
 
 	decade_select_slider_yy.addEventListener("input", evt => {
 		year_select_yy = decade_select_slider_yy.value;
@@ -159,6 +168,18 @@ document.addEventListener("DOMContentLoaded", evt => {
 			}
 		}
 	});
+
+	character_input_yy.addEventListener("input", evt => {
+		name_char = character_input_yy.value
+		if (ALL_DATA_LOADED) {
+			d3.selectAll("#character_ppm").selectAll("*").remove();
+			// make char ppm data using input value
+			const name_char_ppm_data = makeCharPpmData(name_char, given_name_data, char_to_definition_data)
+			createYYCharPpmVis(name_char_ppm_data, name_char)
+			// createAllYYVisuals();
+			// update_decade_in_html();
+		}
+	})
 });
 
 
@@ -799,6 +820,31 @@ calculateAvg = function calculateAvg(gender, year) {
 	return { avg_warmth, weighted_avg_warmth, avg_competence, weighted_avg_competence }
 }
 
+makeCharPpmData = function makeCharPpmData(name_char, charData, char_to_definition) {
+	const translation = char_to_definition[name_char] ? char_to_definition[name_char] : "Not Available"
+	const characher = charData[name_char]
+	if (characher) {
+		return {
+			...charData[name_char],
+			n_1960s: characher["n.1960_1969"],
+			n_1970s: characher["n.1970_1979"],
+			n_1980s: characher["n.1980_1989"],
+			n_1990s: characher["n.1990_1999"],
+			n_2000s: characher["n.2000_2008"],
+			years_of_n: [{ year: 1960, value: characher["n.1960_1969"] }, { year: 1970, value: characher["n.1970_1979"] }, { year: 1980, value: characher["n.1980_1989"] }, { year: 1990, value: characher["n.1990_1999"] }, { year: 2000, value: characher["n.2000_2008"] }],
+			ppm_1960s: characher["ppm.1960_1969"],
+			ppm_1970s: characher["ppm.1970_1979"],
+			ppm_1980s: characher["ppm.1980_1989"],
+			ppm_1990s: characher["ppm.1990_1999"],
+			ppm_2000s: characher["ppm.2000_2008"],
+			years_of_ppm: [{ year: 1960, value: characher["ppm.1960_1969"] }, { year: 1970, value: characher["ppm.1970_1979"] }, { year: 1980, value: characher["ppm.1980_1989"] }, { year: 1990, value: characher["ppm.1990_1999"] }, { year: 2000, value: characher["ppm.2000_2008"] }],
+			translation
+		}
+	} else {
+		return undefined
+	}
+}
+
 getYYData = function () {
 	interactive_chart_data = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, gender, decade3);
 	top_f = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, 'f', decade3);
@@ -810,7 +856,11 @@ getYYData = function () {
 	f_avg_value = calculateAvg('f', decade3);
 	m_avg_value = calculateAvg('m', decade3);
 
-	return [interactive_chart_data, combined_interactive_chart_data, avg_value, m_avg_value, f_avg_value];
+	// get name char line chart data
+	var char_input = document.getElementById("char_input").value ? document.getElementById("char_input").value : "英"
+	line_chart_data = makeCharPpmData(char_input, given_name_data, char_to_definition_data)
+
+	return [interactive_chart_data, combined_interactive_chart_data, avg_value, m_avg_value, f_avg_value, line_chart_data, char_input];
 }
 
 
@@ -1227,3 +1277,210 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
 			d3.select("#instruction2").style("visibility", "visible")
 		});
 };
+
+createYYCharPpmVis = function (line_chart_data, name_char) {
+	var margin = { top: 30, right: 30, bottom: 60, left: 60 };
+	var width = 1100 - margin.left - margin.right;
+	var height = 900 - margin.top - margin.bottom;
+	const svg = d3.selectAll("#character_ppm").attr("viewBox", [0, 0, width, height])
+		.style('border', '1px dotted #999')
+
+	if (!line_chart_data) {
+		svg.append("text").text("No data available, try another character:)").attr("x", width / 2)
+			.attr("y", height / 2)
+		return //svg.node();
+	}
+	// add charachter data
+	svg.append("g")
+		.attr("transform", `translate(${width}, ${margin.top} )`)
+		.append("text")
+		.attr("text-anchor", "end")
+		.text(`${name_char}`)
+		.append("tspan")
+		.text(line_chart_data.pinyin)
+		.attr("x", 0)
+		.attr("dx", 0)
+		.attr("dy", 20)
+		.append("tspan")
+		.text(line_chart_data.translation)
+		.attr("x", 0)
+		.attr("dx", 0)
+		.attr("dy", 20)
+
+	// Add X axis label
+	svg.append("text")
+		.attr("text-anchor", "end")
+		.attr("x", width)
+		.attr("y", height + margin.bottom / 2)
+		.text("Years")
+	// Add Y axis label
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", margin.left)
+		.attr("y", margin.top / 2)
+		.text("ppm")
+	// Add X axis
+	const x_axis_years = [1960, 1970, 1980, 1990, 2000]
+	const custom_x_axis_ticks = { 1960: "1960s", 1970: "1970s", 1980: "1980s", 1990: "1990s", 2000: "2000-2008" }
+	//const x_axis_years = ["1960-1969", "1970-1979", "1980-1989", "1990-1999", "2000-2008"]
+	var xScale = d3.scalePoint()
+		.domain(x_axis_years)
+		.rangeRound([0, width])
+		.padding(0.5)
+	const y_axis_values = line_chart_data["years_of_ppm"].map(obj => obj.value)
+	// Add Y axis
+	var yScale = d3.scaleLinear()
+		.domain([Math.max(...y_axis_values), 0])
+		.range([height, 0]);
+
+	// Margins for X, Y Axis
+	let xMargin = xScale.copy().range([margin.left, width - margin.right])
+	let yMargin = yScale.copy().range([margin.top, height - margin.bottom])
+
+	// x scale for historical events
+	let eventXScale = d3.scaleLinear()
+		.domain([1960, 2000])
+		.range([xMargin(1960), xMargin(2000)])
+	//console.log('event scale', xScale(1960), eventXScale(1960))
+	let eventXMargin = eventXScale.copy().range([margin.left, width - margin.right])
+	// add great leap
+	svg.append("g")
+		.append("rect")
+		.attr("x", eventXScale(1958))
+		.attr("y", margin.top)
+		.attr("width", eventXMargin(1962) - eventXMargin(1958))
+		.attr("height", height - margin.bottom * 2)
+		.attr("fill", "#ffc4da")
+		.attr("opacity", 0.5)
+		.on("mouseover", function () {
+			let xpos = d3.select(this).attr('x')
+			let ypos = d3.select(this).attr('y')
+			let tooltip = d3.select("#character_ppm")
+				.append("g")
+				.attr("id", "event_tooltip")
+				.attr("transform", `translate(${xpos}, ${ypos})`)
+				.append("text")
+				.text("1958-1962")
+				.append("tspan")
+				.text("The Great Leap")
+				.attr("x", 0)
+				.attr("dx", 0)
+				.attr("dy", 20)
+		})
+		.on("mouseout", function () {
+			d3.select("#event_tooltip").remove()
+		})
+	// add cultural revolution rect
+	svg.append("g")
+		.append("rect")
+		.attr("x", eventXScale(1966))
+		.attr("y", margin.top)
+		.attr("width", eventXMargin(1976) - eventXMargin(1966))
+		.attr("height", height - margin.bottom * 2)
+		.attr("fill", "#ffc4da")
+		.attr("opacity", 0.5)
+		.on("mouseover", function () {
+			let xpos = d3.select(this).attr('x')
+			let ypos = d3.select(this).attr('y')
+			let tooltip = d3.select("#character_ppm")
+				.append("g")
+				.attr("id", "event_tooltip")
+				.attr("transform", `translate(${xpos}, ${ypos})`)
+				.append("text")
+				.text("1966-1976")
+				.append("tspan")
+				.text("Cultural Revolution")
+				.attr("x", 0)
+				.attr("dx", 0)
+				.attr("dy", 20)
+		})
+		.on("mouseout", function () {
+			d3.select("#event_tooltip").remove()
+		})
+	// add one-child policy rect
+	svg.append("g")
+		.append("rect")
+		.attr("x", eventXMargin(1980))
+		.attr("y", margin.top)
+		.attr("width", eventXMargin(2000) - eventXMargin(1980))
+		.attr("height", height - margin.bottom * 2)
+		.attr("fill", "#ffc4da")
+		.attr("opacity", 0.5)
+		.on("mouseover", function () {
+			let xpos = d3.select(this).attr('x')
+			let ypos = d3.select(this).attr('y')
+			let tooltip = d3.select("#character_ppm")
+				.append("g")
+				.attr("id", "event_tooltip")
+				.attr("transform", `translate(${xpos}, ${ypos})`)
+				.append("text")
+				.text("1980-2015")
+				.append("tspan")
+				.text("One-Child Policy")
+				.attr("x", 0)
+				.attr("dx", 0)
+				.attr("dy", 20)
+		})
+		.on("mouseout", function () {
+			d3.select("#event_tooltip").remove()
+		})
+	// Append X axis
+	svg.append("g")
+		.attr("transform", `translate(0, ${height - margin.bottom})`)
+		.call(d3.axisBottom(xMargin).tickFormat(d => custom_x_axis_ticks[d]));
+	// Append Y axis
+	svg.append("g")
+		.attr('transform', `translate(${margin.left}, 0)`)
+		.call(d3.axisLeft(yMargin))
+
+	// Add the line
+	svg.append("path")
+		.datum(line_chart_data.years_of_ppm)
+		.attr("fill", "none")
+		.attr("stroke", "#69b3a2")
+		.attr("stroke-width", 3)
+		.attr("d", d3.line()
+			.x((d, index) => xMargin(x_axis_years[index]))
+			.y((d, index) => yMargin(d.value))
+		)
+	// Add the dots
+	svg
+		.append("g")
+		.selectAll("dot")
+		.data(line_chart_data.years_of_ppm)
+		.enter()
+		.append("circle")
+		.attr("id", "dots")
+		.attr("cx", (d, index) => xMargin(x_axis_years[index]))
+		.attr("cy", (d, index) => yMargin(d.value))
+		.attr("r", 10)
+		.attr("fill", "#69b3a2")
+		.attr("stroke", "#b0e8db")
+		.attr("stroke-width", 0)
+		.on("mouseover", function () {
+			const data = d3.select(this).datum()
+			let xpos = d3.select(this).attr('x') || d3.select(this).attr('cx')
+			let ypos = d3.select(this).attr('y') || d3.select(this).attr('cy')
+			xpos = Number(xpos) + 20
+			let tooltip = d3.select("#character_ppm")
+				.append("g")
+				.attr("id", "tooltip")
+				.attr("transform", `translate(${xpos}, ${ypos})`)
+				.append("text")
+				.text(`Value: ${data.value}`)
+				.append("tspan")
+				.text(`Year: ${custom_x_axis_ticks[data.year]}`)
+				.attr("x", 0)
+				.attr("dx", 0)
+				.attr("dy", 25)
+			console.log(d3.select(this).attr("stroke"))
+			d3.select(this).attr("stroke-width", 3)
+		})
+		.on("mouseout", function () {
+			d3.select("#tooltip").remove()
+			d3.select(this).attr("stroke-width", 0)
+		})
+
+
+	//return svg.node();
+}
