@@ -1789,7 +1789,7 @@
         "rank_1980": 9,
         "rank_1990": 5,
         "rank_2000": 13,
-        "theme": "beauty;plants;red;one",
+        "theme": "beauty;plants;one",
         "meaning": "cinnabar"
     },
     {
@@ -1954,7 +1954,7 @@
         "rank_1980": 19,
         "rank_1990": 13,
         "rank_2000": 66,
-        "theme": "beauty;plants;red",
+        "theme": "beauty;plants",
         "meaning": "cinnabar, cinnabar"
     },
     {
@@ -2504,7 +2504,7 @@
         "rank_1980": 109,
         "rank_1990": 64,
         "rank_2000": 77,
-        "theme": "beauty;plants;red;one",
+        "theme": "beauty;plants;one",
         "meaning": "red plant, beautiful, emotive"
     },
     {

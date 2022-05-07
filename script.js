@@ -26,7 +26,8 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 		char_to_definition_data = json[1];
 		char_override_dict_data = json[2];
 		name_parallel_ranks_m = json[3];
-		given_name_data = json[4];
+		name_parallel_ranks_f = json[4];
+		given_name_data = json[5];
 
 		ALL_DATA_LOADED = true;
 
@@ -34,8 +35,12 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 		createVisual(top50char_data, char_to_definition_data, char_override_dict_data);
 
 		// Brian's visualization
-		rank_chart("decade-rank-m", name_parallel_ranks_m, "");
-		rank_chart("decade-rank-m-nation", name_parallel_ranks_m, "nation");
+		rank_chart("decade-rank-m", name_parallel_ranks_m, [], true);
+		rank_chart("decade-rank-f", name_parallel_ranks_f, [], true);
+		rank_chart("decade-rank-m-nation", name_parallel_ranks_m, ["nation"]);
+		rank_chart("decade-rank-f-nation", name_parallel_ranks_f, ["nation"]);
+		rank_chart("decade-rank-m-red", name_parallel_ranks_m, ["red", "army"]);
+		rank_chart("decade-rank-f-red", name_parallel_ranks_f, ["red"]);
 
 		// Yu-Ying's visualization
 		createAllYYVisuals();
@@ -156,356 +161,450 @@ document.addEventListener("DOMContentLoaded", evt => {
 
 
 //Create historical rank chart
-rank_chart =  (svgname, data_rank, keyz = null, theme_colours = d3.scaleOrdinal(d3.schemeCategory10)) => {//(data, data_maxrank, keyz, theme_colours, height) => 
+rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(data, data_maxrank, keyz, theme_colours, height) => 
+	const theme_colours = d3.scaleOrdinal(d3.schemeCategory10);
+	const height = 400;
 	const svg = d3.selectAll(`#${svgname}`)
-		.attr("viewBox", "0 0 700 510")
+		.attr("viewBox", `0 0 700 ${height}`)
 		.attr("preserveAspectRatio", "xMinYMin meet");
 	
 	const margin = ({top: 20, right: 10, bottom: 20, left: 30})
-	const height = 510;
 	const width = 700;
 	const meaning_dict = new Map();
 	const name_keys = ["rank_1950", "rank_1960", "rank_1970", "rank_1980", "rank_1990", "rank_2000"];
   
   
 	const line_transp = []
-	const line_size = []
-	
-	
-	let curr_highlighted = "";
-	let node_to_delete;
-	
-	const name_peak_rank_func = (name_parallel_ranks) => {
-	  // create map with key rank and year and if a name peaks there, return it
-	  let m = new Map();
-	
-	  
-		
-	  name_parallel_ranks.forEach(obj => {
-		let maxrank = 200;
-		let maxyear = "1950";
-		
-		if (obj.rank_1950 < maxrank) {
-		  maxrank = obj.rank_1950;
-		  maxyear = "1950";
-		}
-		if (obj.rank_1960 < maxrank) {
-		  maxrank = obj.rank_1960;
-		  maxyear = "1960";
-		}
-		if (obj.rank_1970 < maxrank) {
-		  maxrank = obj.rank_1970;
-		  maxyear = "1970";
-		}
-		if (obj.rank_1980 < maxrank) {
-		  maxrank = obj.rank_1980;
-		  maxyear = "1980";
-		}
-		if (obj.rank_1990 < maxrank) {
-		  maxrank = obj.rank_1990;
-		  maxyear = "1990";
-		}
-		if (obj.rank_2000 < maxrank) {
-		  maxrank = obj.rank_2000;
-		  maxyear = "2000";
-		}
-	
-		m.set(String(maxrank) + "rank_" + maxyear, obj.name)
-	
-		meaning_dict.set(obj.name, {meaning: obj.meaning, theme: obj.theme})
-	
-	  })
-	
-	  return m;
-	}
-  
-	const line = d3.line()
-	  .curve(d3["curveNatural"])
-	  .defined(([key, value]) => (value != null && value <= 100))//&& value <= 100
-	  .y(([key, value]) => name_x.get(key)(value))
-	  .x(([key, value]) => {
-		return name_y(key) - (value>100 ? name_y.step()/2 : 0)
-	})
+  const line_size = []
   
   
-	const name_x = new Map(Array.from(name_keys, key => [key, d3.scaleLinear([1,100], [margin.top, height - margin.bottom])]))
-	const name_y = d3.scalePoint(name_keys, [margin.left, (width - margin.right)/1.5])
+  let curr_highlighted = "";
+  let node_to_delete;
+
+  const intersects = (arr1, arr2) => {
+    for(let i = 0; i < arr2.length; i++){
+      if(arr1.includes(arr2[i])) return true;
+    }
+    return false;
+  }
   
-	const data_maxrank = name_peak_rank_func(data_rank)
+  const name_peak_rank_func = (name_parallel_ranks) => {
+    // create map with key rank and year and if a name peaks there, return it
+    let m = new Map();
+  
+    
+      
+    name_parallel_ranks.forEach(obj => {
+      let maxrank = 200;
+      let maxyear = "1950";
+      
+      if (obj.rank_1950 < maxrank) {
+        maxrank = obj.rank_1950;
+        maxyear = "1950";
+      }
+      if (obj.rank_1960 < maxrank) {
+        maxrank = obj.rank_1960;
+        maxyear = "1960";
+      }
+      if (obj.rank_1970 < maxrank) {
+        maxrank = obj.rank_1970;
+        maxyear = "1970";
+      }
+      if (obj.rank_1980 < maxrank) {
+        maxrank = obj.rank_1980;
+        maxyear = "1980";
+      }
+      if (obj.rank_1990 < maxrank) {
+        maxrank = obj.rank_1990;
+        maxyear = "1990";
+      }
+      if (obj.rank_2000 < maxrank) {
+        maxrank = obj.rank_2000;
+        maxyear = "2000";
+      }
+  
+      m.set(String(maxrank) + "rank_" + maxyear, obj.name)
+  
+      meaning_dict.set(obj.name, {meaning: obj.meaning, theme: obj.theme})
+  
+    })
+  
+    return m;
+  }
+
+  const line = d3.line()
+    .curve(d3["curveNatural"])
+    .defined(([key, value]) => (value != null && value <= 100))//&& value <= 100
+    .y(([key, value]) => name_x.get(key)(value))
+    .x(([key, value]) => {
+      return name_y(key) - (value>100 ? name_y.step()/2 : 0)
+  })
+
+
+  const name_x = new Map(Array.from(name_keys, key => [key, d3.scaleLinear([1,100], [margin.top, height - margin.bottom])]))
+  const name_y = d3.scalePoint(name_keys, [margin.left, (width - margin.right)/1.5])
+
+  const data_maxrank = name_peak_rank_func(data_rank)
+
+
+
+  const nameDisp = svg.append("text")
+    .attr("x", (width)/1.5 + 10)
+    .attr("y", "55")
+    .attr("opacity", "0.0")
+    .attr("lang", "zh-CN")
+  const themeDisp = svg.append("text")
+    .attr("x", (width)/1.5 + 10)
+    .attr("y", "75")
+    .attr("opacity", "0.0")
+    .attr("lang", "zh-CN")
+
+  //let focus_theme = keyz;
+  let focus_theme = keyz.length > 0 ? keyz : [];
+
   
   
-	
-	
+
+  //draw lines
+  const renderPaths = () => {
+    svg.selectAll(".pathsG").remove();
+  svg.append("g").attr("class", "pathsG")
+      .attr("fill", "none")
+      .attr("stroke-width", 4.5)
+      .attr("stroke-opacity", 0.1)
+    .selectAll("path")
+    .data(data_rank)
+    .join("path")
+      //.attr("stroke", d => d["theme"] === focus_theme ? theme_colours(d["theme"]) : theme_colours(d["theme"]))
+      //.attr("stroke", d => d["theme"] === "nation_recovery" ? theme_colours(d["theme"]) : "none")
+      //.attr("stroke", d => d["theme"] === "red" ? theme_colours(d["theme"]) : "none")
+      //.attr("stroke", d => d["theme"] === "moral" ? theme_colours(d["theme"]) : "none")
+      //.attr("stroke", d => d["theme"] == focus_theme ? theme_colours(d["theme"]) : "none")
+      .attr("stroke", d => {
+        let themes = d["theme"].split(';');
+		theme_colours(themes[0]);
+
+        //filter mode
+        if(focus_theme.length > 0){
+          return (intersects(themes, focus_theme)) ? theme_colours(themes[0]) : "none";
+        }
+        else{
+          return theme_colours(themes[0])
+        }
+        
+        
+      })
+    
+      .attr("d", d => {
+          return line(d3.cross(name_keys, [d], (key, d) => [key, d[key]]))
+      })
+      .attr("data-name", d => d.name)
+      .on('mouseover', function (d, i) {
+          d3.select(this).transition()
+               .duration('50')
+               .attr('stroke-opacity', '1')
+               .attr('stroke-width', 7.5);
+          
+          nameDisp.html(`${d.target.__data__.name}`);
+          nameDisp.transition()
+               .duration(50)
+               .style("opacity", 1)
+
+          themeDisp.html(`${d.target.__data__.meaning}`);
+          themeDisp.transition()
+               .duration(50)
+               .style("opacity", 1)
+
+          d3.selectAll("rect")
+            .filter(function() {
+              return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+            })
+            //.attr("width", height/50)
+            .attr("stroke", "white")
+            .attr("stroke-width", 2)
+            
+     })
+     .on('mouseout', function (d, i) {
+          d3.select(this).transition()
+               .duration('50')
+               .attr('stroke-opacity', '0.1')
+               .attr('stroke-width', 4.5);
+          d3.selectAll("rect")
+            .filter(function() {
+              return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+            })
+          .attr("width", height/100)
+          .attr("stroke-width", 0)
+     })
+    .append("title")
+      .text(d => d.name);
+
+  }
+  renderPaths();
+      
+
+  //draw axis
+  const renderAxis = () => {
+    svg.selectAll(".axisG").remove();
+    //d3.selectAll(".axisText").remove();
+  svg.append("g").attr("class", "axisG")
+    .selectAll("g")
+    .data(name_keys)
+    .join("g")
+      .attr("transform", d => `translate(${name_y(d)},0)`)
+      .each(function(d) { d3.select(this).call(
+        d3.axisLeft(name_x.get(d))
+          .ticks(100)
+          .tickFormat(d2 => {
+            let code = String(d2) + d;
+            if(data_maxrank.has(code)){
+              
+              if(focus_theme.length > 0){
+                  let themes = meaning_dict.get(data_maxrank.get(code))["theme"].split(';');
+                  return (intersects(themes,focus_theme)) ? data_maxrank.get(code) : "";
+                }
+                else{
+                  return data_maxrank.get(code);
+              }
+              
+            }
+            else{
+              return ""
+            }
+            
+          }));
+      })
+      .call(g => g.append("text")
+        .attr("y", margin.top - 6)
+        .attr("x", -6)
+        .attr("text-anchor", "start")
+        .attr("fill", "currentColor")
+        .attr("class", "axisText")
+        .text(d => d))
+      .call(g => g.selectAll("text")
+        .clone(true).lower()
+        .attr("fill", "none")
+        .attr("stroke-width", 2)
+        .attr("stroke-linejoin", "round")
+        .attr("stroke", "white")
+        .attr("class", "axisText"))
+      .call(g => g.selectAll(".tick>text"))
+        /**/
+        .on('mouseover', function (d, i) {
+          if(name_keys.includes(d.toElement.innerHTML) || d.toElement.innerHTML === "") return;
+          //d3.select(this)
+          //console.log("mousein " + d.toElement.innerHTML)
+          curr_highlighted = d.toElement.innerHTML;
+                    
+          
+                  d3.selectAll(".tick>text")
+                      .nodes()
+                      .filter(t => t.innerHTML == d.toElement.innerHTML)
+                                .forEach(a => {
+                                    a.parentNode.parentNode.appendChild(a.parentNode);
+                                })
+                        
+          
+                    nameDisp.html(`${d.toElement.innerHTML}`);
+                    nameDisp.transition()
+                         .duration(50)
+                         .style("opacity", 1)
+          
+                    themeDisp.html(`${meaning_dict.get(d.toElement.innerHTML).meaning}`);
+                    themeDisp.transition()
+                         .duration(50)
+                         .style("opacity", 1)
+          
+                    d3.selectAll("path")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == d.toElement.innerHTML; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr('stroke-opacity', '1')
+                         .attr('stroke-width', 7.5);
+
+                  d3.selectAll("rect")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == d.toElement.innerHTML; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr("stroke", "white")
+                          .attr("stroke-width", 2)
+               })
+              
+
+        .on('mouseout', function (d, i) {
+                  
+                    d3.selectAll("path")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == curr_highlighted; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr('stroke-opacity', '0.1')
+                         .attr('stroke-width', 4.5);
+
+                    d3.selectAll("rect")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == curr_highlighted; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr("stroke", "white")
+                          .attr("stroke-width", 0)
+
+               }) 
+  } 
+    
+  renderAxis();
+
   
-	const nameDisp = svg.append("text")
-	  .attr("x", (width)/1.5)
-	  .attr("y", "55")
-	  .attr("opacity", "0.0")
-	  .attr("lang", "zh-CN")
-	const themeDisp = svg.append("text")
-	  .attr("x", (width)/1.5)
-	  .attr("y", "75")
-	  .attr("opacity", "0.0")
-	  .attr("lang", "zh-CN")
   
-	//let focus_theme = keyz;
-	let focus_theme = String(keyz).length > 0 ? String(keyz) : null;
   
-	//draw lines
-	svg.append("g")
-		.attr("fill", "none")
-		.attr("stroke-width", 4.5)
-		.attr("stroke-opacity", 0.1)
-	  .selectAll("path")
-	  .data(data_rank)
-	  .join("path")
-		//.attr("stroke", d => d["theme"] === focus_theme ? theme_colours(d["theme"]) : theme_colours(d["theme"]))
-		//.attr("stroke", d => d["theme"] === "nation_recovery" ? theme_colours(d["theme"]) : "none")
-		//.attr("stroke", d => d["theme"] === "red" ? theme_colours(d["theme"]) : "none")
-		//.attr("stroke", d => d["theme"] === "moral" ? theme_colours(d["theme"]) : "none")
-		//.attr("stroke", d => d["theme"] == focus_theme ? theme_colours(d["theme"]) : "none")
-		.attr("stroke", d => {
-		  let themes = d["theme"].split(';');
+  //draw points
+  const renderPoints = () => {
+    
+  svg.selectAll(".cubePointG").remove();
+  svg.append("g").attr("class", "cubePointG")
+    .selectAll(".cubePoint rect")
+    .data(data_rank)
+    .join((enter) => {
+        let g = enter;
+        
+        name_keys.forEach(year => {
+          g.append('rect')
+              .attr("width", height/100)
+              .attr("height", height/100)
+              .attr("x", d => name_y(year) - height/200)
+              .attr("y", d => name_x.get(year)(d[year]) - height/200)
+              .attr("class", "cubePoint")
+              .attr("fill", d => {
+                let themes = d["theme"].split(';');
+                //return (themes[0] === focus_theme) ? theme_colours(themes[0]) : focus_theme != null ? "none": theme_colours(themes[0]);
+
+                //filter mode
+                if(focus_theme.length > 0){
+                  return (intersects(themes, focus_theme)) ? theme_colours(themes[0]) : "none";
+                }
+                else{
+                  return theme_colours(themes[0])
+                }
+              })
+              .attr("data-name", d => d.name)
+              
+              .on('mouseover', function (d, i) {
+                    nameDisp.html(`${d.target.__data__.name}`);
+                    nameDisp.transition()
+                         .duration(50)
+                         .style("opacity", 1)
+
+                    themeDisp.html(`${meaning_dict.get(d.target.__data__.name).meaning}`);
+                    themeDisp.transition()
+                         .duration(50)
+                         .style("opacity", 1)
+          
+                    d3.selectAll("path")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr('stroke-opacity', '1')
+                         .attr('stroke-width', 7.5);
+
+                  d3.selectAll("rect")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr("stroke", "white")
+                          .attr("stroke-width", 2)
+               })
+               .on('mouseout', function (d, i) {
+                      d3.selectAll("rect")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr("stroke", "white")
+                          .attr("stroke-width", 0)
+                      
+                 
+                      d3.selectAll("path")
+                      .filter(function() {
+                        return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
+                      }).transition()
+                         .duration('50')
+                         .attr('stroke-opacity', '0.1')
+                         .attr('stroke-width', 4.5);
+               })
+          }
+          
+        )
+        
+
+    })
+  }
+
+  renderPoints();
   
-		  //filter mode
-		  if(focus_theme != null){
-			return (themes.includes(focus_theme)) ? theme_colours(themes[0]) : "none";
-		  }
-		  else{
-			return theme_colours(themes[0])
-		  }
-		  
-		  
-		})
-	  
-		.attr("d", d => {
-			return line(d3.cross(name_keys, [d], (key, d) => [key, d[key]]))
-		})
-		.attr("data-name", d => d.name)
-		.on('mouseover', function (d, i) {
-			d3.select(this).transition()
-				 .duration('50')
-				 .attr('stroke-opacity', '1')
-				 .attr('stroke-width', 7.5);
-			
-			nameDisp.html(`${d.target.__data__.name}`);
-			nameDisp.transition()
-				 .duration(50)
-				 .style("opacity", 1)
+  //draw legend
   
-			themeDisp.html(`${d.target.__data__.meaning}`);
-			themeDisp.transition()
-				 .duration(50)
-				 .style("opacity", 1)
-  
-			d3.selectAll("rect")
-			  .filter(function() {
-				return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
-			  })
-			  //.attr("width", height/50)
-			  .attr("stroke", "white")
-			  .attr("stroke-width", 2)
-			  
-	   })
-	   .on('mouseout', function (d, i) {
-			d3.select(this).transition()
-				 .duration('50')
-				 .attr('stroke-opacity', '0.1')
-				 .attr('stroke-width', 4.5);
-			d3.selectAll("rect")
-			  .filter(function() {
-				return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
-			  })
-			.attr("width", height/100)
-			.attr("stroke-width", 0)
-	   })
-	  .append("title")
-		.text(d => d.name);
-  
-	
-		
-  
-	//draw axis
-	svg.append("g")
-	  .selectAll("g")
-	  .data(name_keys)
-	  .join("g")
-		.attr("transform", d => `translate(${name_y(d)},0)`)
-		.each(function(d) { d3.select(this).call(
-		  d3.axisLeft(name_x.get(d))
-			.ticks(100)
-			.tickFormat(d2 => {
-			  let code = String(d2) + d;
-			  if(data_maxrank.has(code)){
-				return data_maxrank.get(code);
-			  }
-			  else{
-				return ""
-			  }
-			  
-			}));
-		})
-		.call(g => g.append("text")
-		  .attr("y", margin.top - 6)
-		  .attr("x", -6)
-		  .attr("text-anchor", "start")
-		  .attr("fill", "currentColor")
-		  .text(d => d))
-		.call(g => g.selectAll("text")
-		  .clone(true).lower()
-		  .attr("fill", "none")
-		  .attr("stroke-width", 5)
-		  .attr("stroke-linejoin", "round")
-		  .attr("stroke", "white"))
-		.call(g => g.selectAll(".tick>text"))
-		  /**/
-		  .on('mouseover', function (d, i) {
-			if(name_keys.includes(d.toElement.innerHTML) || d.toElement.innerHTML === "") return;
-			//d3.select(this)
-			//console.log("mousein " + d.toElement.innerHTML)
-			curr_highlighted = d.toElement.innerHTML;
-					  
-			
-					d3.selectAll(".tick>text")
-						.nodes()
-						.filter(t => t.innerHTML == d.toElement.innerHTML)
-								  .forEach(a => {
-									  a.parentNode.parentNode.appendChild(a.parentNode);
-								  })
-						  
-			
-					  nameDisp.html(`${d.toElement.innerHTML}`);
-					  nameDisp.transition()
-						   .duration(50)
-						   .style("opacity", 1)
-			
-					  themeDisp.html(`${meaning_dict.get(d.toElement.innerHTML).meaning}`);
-					  themeDisp.transition()
-						   .duration(50)
-						   .style("opacity", 1)
-			
-					  d3.selectAll("path")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == d.toElement.innerHTML; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr('stroke-opacity', '1')
-						   .attr('stroke-width', 7.5);
-  
-					d3.selectAll("rect")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == d.toElement.innerHTML; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr("stroke", "white")
-							.attr("stroke-width", 2)
-				 })
-				
-  
-		  .on('mouseout', function (d, i) {
-					
-					  d3.selectAll("path")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == curr_highlighted; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr('stroke-opacity', '0.1')
-						   .attr('stroke-width', 4.5);
-  
-					  d3.selectAll("rect")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == curr_highlighted; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr("stroke", "white")
-							.attr("stroke-width", 0)
-  
-				 }) 
-	  
-	  
-	  
-  
-	
-	
-	
-	//draw points
-	svg.append("g")
-	  .selectAll("rect")
-	  .data(data_rank)
-	  .join((enter) => {
-		  let g = enter;
-		  
-		  name_keys.forEach(year => {
-			g.append('rect')
-				.attr("width", height/100)
-				.attr("height", height/100)
-				.attr("x", d => name_y(year) - height/200)
-				.attr("y", d => name_x.get(year)(d[year]) - height/200)
-				.attr("fill", d => {
-				  let themes = d["theme"].split(';');
-				  //return (themes[0] === focus_theme) ? theme_colours(themes[0]) : focus_theme != null ? "none": theme_colours(themes[0]);
-  
-				  //filter mode
-				  if(focus_theme != null){
-					return (themes.includes(focus_theme)) ? theme_colours(themes[0]) : "none";
-				  }
-				  else{
-					return theme_colours(themes[0])
-				  }
-				})
-				.attr("data-name", d => d.name)
-				
-				.on('mouseover', function (d, i) {
-					  nameDisp.html(`${d.target.__data__.name}`);
-					  nameDisp.transition()
-						   .duration(50)
-						   .style("opacity", 1)
-  
-					  themeDisp.html(`${meaning_dict.get(d.target.__data__.name).meaning}`);
-					  themeDisp.transition()
-						   .duration(50)
-						   .style("opacity", 1)
-			
-					  d3.selectAll("path")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr('stroke-opacity', '1')
-						   .attr('stroke-width', 7.5);
-  
-					d3.selectAll("rect")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr("stroke", "white")
-							.attr("stroke-width", 2)
-				 })
-				 .on('mouseout', function (d, i) {
-						d3.selectAll("rect")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr("stroke", "white")
-							.attr("stroke-width", 0)
-						
-				   
-						d3.selectAll("path")
-						.filter(function() {
-						  return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
-						}).transition()
-						   .duration('50')
-						   .attr('stroke-opacity', '0.1')
-						   .attr('stroke-width', 4.5);
-				 })
+  let extendedThemes = interactable ? theme_colours.domain() : focus_theme;
+  if(interactable) extendedThemes.push("one");
+
+  const renderLegend = () => {
+    svg.selectAll(".labelPointG").remove();
+    const legend = svg.append("g").attr("class", "labelPointG")
+      .selectAll(".labelPoint g")
+      .data(extendedThemes).enter().append("g")
+      //.attr("transform", (d, i) => { return `translate(${parseInt((width)/1.5)} ${75 + 20*i})`});
+      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 20*i})`)
+      .attr("class", "labelPoint")
+    
+    legend.append("rect")
+        .attr("width", height/75)
+        .attr("height", height/75)
+        .attr("x", (d,i) => 10)
+        .attr("y", (d,i) =>  0)
+        .attr("class", "labelBox")
+        .attr("fill", d => {
+          if(focus_theme.includes(d)){
+            return (d === "one") ? "black" : theme_colours(d)
+          }
+          else{
+            return "white";
+          }
+          
+        })
+        .attr("stroke", d => {
+            return (d === "one") ? "black" : theme_colours(d)
+        })
+        .attr("stroke-width", 2)
+        .on("click", (d,i) => {
+			if(interactable){
+				const index = focus_theme.indexOf(d.target.__data__);
+				if (index > -1) {
+					focus_theme.splice(index, 1); // 2nd parameter means remove one item only
+				}
+				else{
+					focus_theme.push(d.target.__data__);
+				}
+
+				renderPaths();
+				renderAxis();
+				renderPoints();
+				renderLegend();
 			}
-			
-		  )
-		  
-  
-	  })
+          
+          
+        })
+    legend.append("text")
+        .attr("x", (d,i) => 30)
+        .attr("y", (d,i) =>  0 )
+        .attr("dy", "0.35em")
+        .attr("fill", "black")
+        .text(d => d);
+  }
+
+  renderLegend();
   
   
 	//return svg.node();
