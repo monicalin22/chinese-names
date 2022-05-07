@@ -6,6 +6,7 @@ ALL_URLS = [
 	"data/char_to_definition.json",
 	"data/char_override_dict.json",
 	"data/name_parallel_ranks_m_final.json",
+	"data/name_parallel_ranks_f_final.json",
 	"data/givenname.json"
 ]
 
