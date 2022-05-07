@@ -46,7 +46,7 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 
 		// Yu-Ying's visualization
 		createAllYYVisuals();
-
+		appendNameCharOptions(given_name_data, char_to_definition_data)
 	});
 
 createAllYYVisuals = function () {
@@ -61,10 +61,6 @@ createAllYYVisuals = function () {
 	createYYVisualization(top50char_data, interactive_chart_data, avg_value);
 	createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
 	createYYCharPpmVis(line_chart_data, char_input)
-}
-
-createYY_ppm_vis = function () {
-
 }
 
 var decade2 = 1950;
@@ -91,6 +87,7 @@ document.addEventListener("DOMContentLoaded", evt => {
 	num_char_slider_yy = document.getElementById("num-char-selector");
 	gender_dropdown_yy = document.getElementById("gender-selector");
 	character_input_yy = document.getElementById("char_input")
+	character_select_yy = document.getElementById("char_select")
 
 	decade_select_slider_yy.addEventListener("input", evt => {
 		year_select_yy = decade_select_slider_yy.value;
@@ -176,8 +173,22 @@ document.addEventListener("DOMContentLoaded", evt => {
 			// make char ppm data using input value
 			const name_char_ppm_data = makeCharPpmData(name_char, given_name_data, char_to_definition_data)
 			createYYCharPpmVis(name_char_ppm_data, name_char)
-			// createAllYYVisuals();
-			// update_decade_in_html();
+			// change selected option to char if input char available
+			if (given_name_data[name_char]) {
+				character_select_yy.value = name_char
+			}
+		}
+	})
+
+	character_select_yy.addEventListener("change", evt => {
+		name_char = evt.target.value
+		// change input value to selected char
+		character_input_yy.value = name_char
+		if (ALL_DATA_LOADED) {
+			d3.selectAll("#character_ppm").selectAll("*").remove();
+			// make char ppm data using input value
+			const name_char_ppm_data = makeCharPpmData(name_char, given_name_data, char_to_definition_data)
+			createYYCharPpmVis(name_char_ppm_data, name_char)
 		}
 	})
 });
@@ -843,6 +854,22 @@ makeCharPpmData = function makeCharPpmData(name_char, charData, char_to_definiti
 	} else {
 		return undefined
 	}
+}
+
+appendNameCharOptions = function appendNameCharOptions(given_name_data, char_to_definition) {
+	const select_element = document.getElementById("char_select")
+	const chars = Object.keys(given_name_data)
+	let emptyOption = document.createElement("option")
+	emptyOption.text = "select a char"
+	emptyOption.value = undefined
+	select_element.appendChild(emptyOption)
+	chars.forEach(char => {
+		let option = document.createElement("option")
+		const translation = char_to_definition[char] ? char_to_definition[char] : "Translation Not Available"
+		option.text = `${char} - ${translation}`
+		option.value = char
+		select_element.appendChild(option)
+	})
 }
 
 getYYData = function () {
