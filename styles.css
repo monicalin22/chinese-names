@@ -15,7 +15,7 @@ body {
     justify-content: center;
     display: flex;
     background-color: #CF623F;
-    background-image: url("assets/Header-Img.png");
+    background-image: url("assets/Header-Img.svg");
 }
 
 #vis-container {
