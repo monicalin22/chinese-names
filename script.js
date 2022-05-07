@@ -1349,7 +1349,7 @@ createYYCharPpmVis = function (line_chart_data, name_char) {
 		.attr("x", eventXScale(1958))
 		.attr("y", margin.top)
 		.attr("width", eventXMargin(1962) - eventXMargin(1958))
-		.attr("height", height - margin.bottom * 2)
+		.attr("height", height - margin.bottom - margin.top)
 		.attr("fill", "#ffc4da")
 		.attr("opacity", 0.5)
 		.on("mouseover", function () {
@@ -1376,7 +1376,7 @@ createYYCharPpmVis = function (line_chart_data, name_char) {
 		.attr("x", eventXScale(1966))
 		.attr("y", margin.top)
 		.attr("width", eventXMargin(1976) - eventXMargin(1966))
-		.attr("height", height - margin.bottom * 2)
+		.attr("height", height - margin.bottom - margin.top)
 		.attr("fill", "#ffc4da")
 		.attr("opacity", 0.5)
 		.on("mouseover", function () {
@@ -1403,7 +1403,7 @@ createYYCharPpmVis = function (line_chart_data, name_char) {
 		.attr("x", eventXMargin(1980))
 		.attr("y", margin.top)
 		.attr("width", eventXMargin(2000) - eventXMargin(1980))
-		.attr("height", height - margin.bottom * 2)
+		.attr("height", height - margin.bottom - margin.top)
 		.attr("fill", "#ffc4da")
 		.attr("opacity", 0.5)
 		.on("mouseover", function () {
