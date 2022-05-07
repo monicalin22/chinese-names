@@ -41,6 +41,8 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 		rank_chart("decade-rank-f-nation", name_parallel_ranks_f, ["nation"]);
 		rank_chart("decade-rank-m-red", name_parallel_ranks_m, ["red", "army"]);
 		rank_chart("decade-rank-f-red", name_parallel_ranks_f, ["red"]);
+		rank_chart("decade-rank-m-ocp", name_parallel_ranks_m, ["one"]);
+		rank_chart("decade-rank-f-ocp", name_parallel_ranks_f, ["one"]);
 
 		// Yu-Ying's visualization
 		createAllYYVisuals();
