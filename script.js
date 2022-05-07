@@ -173,7 +173,10 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 	}
 	const svg = d3.selectAll(`#${svgname}`)
 		.attr("viewBox", `0 0 ${width} ${height}`)
-		.attr("preserveAspectRatio", "xMinYMin meet");
+		.attr("preserveAspectRatio", "xMinYMin meet")
+		.attr("xmlns", "http://www.w3.org/2000/svg")
+		.attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+		.attr("xmlns:xhtml", "http://www.w3.org/1999/xhtml")
 	
 	const margin = ({top: 20, right: 10, bottom: 20, left: 30})
 	
@@ -265,6 +268,17 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
     .attr("y", "75")
     .attr("opacity", "0.0")
     .attr("lang", "zh-CN")
+  const meaningDispContainer = svg.append("foreignObject")
+  	.attr("x", (width)/1.5 + 10)
+	.attr("y", "95")
+	//.attr("opacity", "1")
+	.attr("width", (width)/4 - 10)
+	//.attr("width", "20")
+	.attr("height", "300")
+  const meaningDisp = meaningDispContainer.append("xhtml:text")
+  	
+
+  	
 
   //let focus_theme = keyz;
   let focus_theme = keyz.length > 0 ? keyz : [];
@@ -317,12 +331,17 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                .duration(50)
                .style("opacity", 1)
 
-          themeDisp.html(`${d.target.__data__.meaning}`);
-          themeDisp.transition()
+		  /*themeDisp.html(`${d.target.__data__.theme}`)
+		  themeDisp.transition()
                .duration(50)
                .style("opacity", 1)
+*/
+          meaningDisp.html(`${d.target.__data__.meaning}`);
+          meaningDisp.transition()
+            .duration(50)
+            .style("opacity", 1)
 
-          d3.selectAll("rect")
+          svg.selectAll("rect")
             .filter(function() {
               return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
             })
@@ -336,7 +355,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                .duration('50')
                .attr('stroke-opacity', '0.1')
                .attr('stroke-width', 4.5);
-          d3.selectAll("rect")
+          svg.selectAll("rect")
             .filter(function() {
               return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
             })
@@ -404,7 +423,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
           curr_highlighted = d.toElement.innerHTML;
                     
           
-                  d3.selectAll(".tick>text")
+                  svg.selectAll(".tick>text")
                       .nodes()
                       .filter(t => t.innerHTML == d.toElement.innerHTML)
                                 .forEach(a => {
@@ -417,12 +436,12 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                          .duration(50)
                          .style("opacity", 1)
           
-                    themeDisp.html(`${meaning_dict.get(d.toElement.innerHTML).meaning}`);
-                    themeDisp.transition()
-                         .duration(50)
-                         .style("opacity", 1)
+					meaningDisp.text(`${meaning_dict.get(d.toElement.innerHTML).meaning}`);
+                    meaningDisp.transition()
+                        .duration(50)
+                        .style("opacity", 1)
           
-                    d3.selectAll("path")
+                    svg.selectAll("path")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == d.toElement.innerHTML; // filter by name
                       }).transition()
@@ -430,7 +449,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                          .attr('stroke-opacity', '1')
                          .attr('stroke-width', 7.5);
 
-                  d3.selectAll("rect")
+                  svg.selectAll("rect")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == d.toElement.innerHTML; // filter by name
                       }).transition()
@@ -442,7 +461,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 
         .on('mouseout', function (d, i) {
                   
-                    d3.selectAll("path")
+                    svg.selectAll("path")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == curr_highlighted; // filter by name
                       }).transition()
@@ -450,7 +469,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                          .attr('stroke-opacity', '0.1')
                          .attr('stroke-width', 4.5);
 
-                    d3.selectAll("rect")
+                    svg.selectAll("rect")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == curr_highlighted; // filter by name
                       }).transition()
@@ -503,12 +522,12 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                          .duration(50)
                          .style("opacity", 1)
 
-                    themeDisp.html(`${meaning_dict.get(d.target.__data__.name).meaning}`);
-                    themeDisp.transition()
+                    meaningDisp.text(`${meaning_dict.get(d.target.__data__.name).meaning}`);
+                    meaningDisp.transition()
                          .duration(50)
                          .style("opacity", 1)
           
-                    d3.selectAll("path")
+                    svg.selectAll("path")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
                       }).transition()
@@ -516,7 +535,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                          .attr('stroke-opacity', '1')
                          .attr('stroke-width', 7.5);
 
-                  d3.selectAll("rect")
+                  svg.selectAll("rect")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
                       }).transition()
@@ -525,7 +544,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                           .attr("stroke-width", 2)
                })
                .on('mouseout', function (d, i) {
-                      d3.selectAll("rect")
+                      svg.selectAll("rect")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
                       }).transition()
@@ -534,7 +553,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                           .attr("stroke-width", 0)
                       
                  
-                      d3.selectAll("path")
+                      svg.selectAll("path")
                       .filter(function() {
                         return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
                       }).transition()
