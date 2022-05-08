@@ -259,7 +259,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 	['achievement', 'Achievement'],
 	['army', 'Military'],
 	['moral', 'Morals and Ethics'],
-	['nation', 'Nation and Nationhood'],
+	['nation', 'Nation and Nationbuilding'],
 	['plants', 'Flora'],
 	['nature', 'Natural Phenomena'],
 	['beauty', 'Beauty'],
@@ -664,16 +664,17 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       .selectAll(".labelPoint g")
       .data(extendedThemes).enter().append("g")
       //.attr("transform", (d, i) => { return `translate(${parseInt((width)/1.5)} ${75 + 20*i})`});
-      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 17*i})`)
+      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 15*i})`)
       .attr("class", "labelPoint")
 
     
     legend.append("rect")
-        .attr("width", height/75)
-        .attr("height", height/75)
+        .attr("width", height/45)
+        .attr("height", height/45)
         .attr("x", (d,i) => 10)
         .attr("y", (d,i) =>  0)
         .attr("class", "labelBox")
+		.attr("data-legend", d => d)
         .attr("fill", d => {
           if(focus_theme.includes(d)){
             return (d === "one") ? "black" : theme_colours(d)
@@ -705,9 +706,27 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
           
           
         })
+		.on('mouseover', function (d, i) {
+			if(interactable && focus_theme.indexOf(d.target.__data__) < 0){
+				d3.select(this).transition()
+				 .duration('50')
+				 .attr('fill', d => {
+					  return (d === "one") ? "black" : theme_colours(d);
+				  })
+			}
+			
+			
+	   })
+	   .on('mouseout', function (d, i) {
+			if(interactable && focus_theme.indexOf(d.target.__data__) < 0){
+				d3.select(this).transition()
+					.duration('50')
+					.attr('fill', "white")
+		   }
+	   })
     legend.append("text")
         .attr("x", (d,i) => 30)
-        .attr("y", (d,i) =>  3 )
+        .attr("y", (d,i) =>  5 )
         .attr("dy", "0.25em")
 		.attr("font-size", "0.7em")
         .attr("fill", "black")
@@ -728,6 +747,30 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 				renderLegend();
 			}
 		})
+		.on('mouseover', function (d, i) {
+			if(interactable && focus_theme.indexOf(d.target.__data__) < 0){
+				svg.selectAll("rect")
+					.filter(function() {
+					  return d3.select(this).attr("data-legend") === d.target.__data__; // filter by name
+				}).transition()
+				 .duration('50')
+				 .attr('fill', d => {
+					  return (d === "one") ? "black" : theme_colours(d);
+				  })
+			}
+			
+			
+	   })
+	   .on('mouseout', function (d, i) {
+			if(interactable && focus_theme.indexOf(d.target.__data__) < 0){
+				svg.selectAll("rect")
+					.filter(function() {
+					  return d3.select(this).attr("data-legend") === d.target.__data__; // filter by name
+					}).transition()
+					   .duration('50')
+					   .attr('fill', "white")
+		   }
+	   })
   }
 
   renderLegend();
