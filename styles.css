@@ -113,3 +113,16 @@ a {
 {
 	background-color: #F7F2EC;
 }
+
+.famous_ppl_list {
+	display: flex;
+	text-align: center;
+	justify-content: space-between;
+	padding: 0;
+	list-style: none;
+}
+
+.famous_ppl_name_ch {
+	margin: 0;
+	font-weight: 700;
+}
