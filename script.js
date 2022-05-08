@@ -462,7 +462,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       .each(function(d) { d3.select(this).call(
         d3.axisLeft(name_x.get(d))
           .ticks(100)
-		  .tickSize(1)
+		  .tickSize(0)
           .tickFormat(d2 => {
             let code = String(d2) + d;
             if(data_maxrank.has(code)){
