@@ -16,6 +16,7 @@ var top50char_data;
 var char_to_definition_data;
 var char_override_dict_data;
 var given_name_data;
+var low_warmth_comp_chars = ["纯", "财", "大", "汉", "官", "寒", "源", "贞", "震", "治", "珠"]
 
 var ALL_DATA_LOADED = false;
 Promise.all(ALL_URLS.map(u => fetch(u)))
@@ -58,10 +59,11 @@ createAllYYVisuals = function () {
 	var avg_value = data[2];
 	var m_avg_value = data[3];
 	var f_avg_value = data[4];
-	var line_chart_data = data[5]
-	var char_input = data[6]
+	var low_warmth_comp_chars_data = data[5]
+	var line_chart_data = data[6]
+	var char_input = data[7]
 	createYYVisualization(top50char_data, interactive_chart_data, avg_value);
-	createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value);
+	createYYCombinedVisualization(top50char_data, m_avg_value, f_avg_value, low_warmth_comp_chars_data);
 	// remove the name ppm chart first so the red rects opacity won't get affected
 	d3.selectAll("#character_ppm").selectAll("*").remove();
 	createYYCharPpmVis(line_chart_data, char_input)
@@ -86,10 +88,11 @@ document.addEventListener("DOMContentLoaded", evt => {
 	// Slider for Jeffrey
 	decade_select_slider = document.getElementById("decade-selector");
 
-	// Sliders and dropdowns for Yu-Ying
+	// Sliders, input, dropdowns for Yu-Ying
 	decade_select_slider_yy = document.getElementById("decade-selector-yy");
 	num_char_slider_yy = document.getElementById("num-char-selector");
 	gender_dropdown_yy = document.getElementById("gender-selector");
+	low_warmth_comp_chars_checkbox_yy = document.getElementById("low_warmth_comp_chars_checkbox")
 	character_input_yy = document.getElementById("char_input")
 	character_select_yy = document.getElementById("char_select")
 
@@ -169,6 +172,16 @@ document.addEventListener("DOMContentLoaded", evt => {
 			}
 		}
 	});
+
+	low_warmth_comp_chars_checkbox_yy.addEventListener("change", evt => {
+		const isChecked = document.getElementById("low_warmth_comp_chars_checkbox").checked
+		const low_warmth_comp_dots = document.querySelectorAll(".low_warmth_comp_chars")
+		if (isChecked) {
+			low_warmth_comp_dots.forEach(dot => dot.style.display = 'block')
+		} else {
+			low_warmth_comp_dots.forEach(dot => dot.style.display = 'none')
+		}
+	})
 
 	character_input_yy.addEventListener("input", evt => {
 		name_char = character_input_yy.value
@@ -957,11 +970,20 @@ getYYData = function () {
 	f_avg_value = calculateAvg('f', decade3);
 	m_avg_value = calculateAvg('m', decade3);
 
+	low_warmth_comp_chars_data = low_warmth_comp_chars.map(char => ({
+			char,
+			pinyin: given_name_data[char].pinyin,
+			warmth: given_name_data[char]["name.warmth"],
+			competence: given_name_data[char]["name.competence"],
+			translation: char_to_definition_data[char]
+	}))
+	console.log(low_warmth_comp_chars_data)
+
 	// get name char line chart data
 	var char_input = document.getElementById("char_input").value ? document.getElementById("char_input").value : "英"
 	line_chart_data = makeCharPpmData(char_input, given_name_data, char_to_definition_data)
 
-	return [interactive_chart_data, combined_interactive_chart_data, avg_value, m_avg_value, f_avg_value, line_chart_data, char_input];
+	return [interactive_chart_data, combined_interactive_chart_data, avg_value, m_avg_value, f_avg_value, low_warmth_comp_chars_data,line_chart_data, char_input];
 }
 
 
@@ -1159,14 +1181,11 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 	console.log("Finished with visualization")
 };
 
-createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
+createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_warmth_comp_chars_data) {
 	var margin = { top: 30, right: 30, bottom: 60, left: 60 };
 	var width = 1100 - margin.left - margin.right;
 	var height = 900 - margin.top - margin.bottom;
 	const svg = d3.selectAll("#combined-warmth-competence-vis").attr("viewBox", [0, 0, width, height])
-	//const svg = d3.selectAll("#combined-warmth-competence-vis")
-		//.attr("width", width + margin.left + margin.right)
-		//.attr("height", height + margin.top + margin.bottom)
 		.style('border', '1px dotted #999')
 
 	// Add X axis label
@@ -1290,50 +1309,102 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
 			.attr("transform", (d, i) => `translate(100,100)`)
 		//.attr("transform", (d, i) => `translate(${xpos},${ypos})`)
 
-		tgrp.append("text")
-			.style("fill", "black")
-			.style("opacity", "1")
-			.append("tspan")
-			.text(`Char: ${data.char}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
-			.append("tspan")
-			.text(`Pinyin: ${data.pinyin}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
-			.append("tspan")
-			.text(`Gender: ${data.gender === 'f' ? "Female" : "Male"}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
-			.append("tspan")
-			.text(`Rank: ${data.rank}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
-			.append("tspan")
-			.text(`Warmth: ${data.warmth}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
-			.append("tspan")
-			.text(`Competence: ${data.competence}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
-			.append("tspan")
-			.text(`Translation: ${data.translation}`)
-			.attr("x", 0)
-			.attr("dx", 10)
-			.attr("dy", 25)
+		if (data.gender) {
+			tgrp.append("text")
+				.style("fill", "black")
+				.style("opacity", "1")
+				.append("tspan")
+				.text(`Char: ${data.char}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Pinyin: ${data.pinyin}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Gender: ${data.gender === 'f' ? "Female" : "Male"}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Rank: ${data.rank ? data.rank : 'Not in top 50'}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Warmth: ${data.warmth}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Competence: ${data.competence}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Translation: ${data.translation}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+		} else {
+			tgrp.append("text")
+				.style("fill", "black")
+				.style("opacity", "1")
+				.append("tspan")
+				.text(`Char: ${data.char}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Pinyin: ${data.pinyin}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Rank: ${data.rank ? data.rank : 'Not in top 50'}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Warmth: ${data.warmth}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Competence: ${data.competence}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+				.append("tspan")
+				.text(`Translation: ${data.translation}`)
+				.attr("x", 0)
+				.attr("dx", 10)
+				.attr("dy", 25)
+		}
 	}
 
 	// Add dots
 	var gdots = svg.selectAll("g.dot")
-		.data(combined_interactive_chart_data)
+		.data(combined_interactive_chart_data.concat(low_warmth_comp_chars_data))
 		.enter().append('g')
+
+	// append circle for low_warmth_comp characters
+	gdots.append("circle")
+		.filter(d => !d.rank) // low_warmth_comp chars don't have ranking
+		.attr("class", "low_warmth_comp_chars")
+		.attr("r", 14)
+		.attr("cx", function (d) { return xMargin(d.warmth); })
+		.attr("cy", function (d) { return yMargin(d.competence); })
+		.style("fill", "#8a8a8a")
+		.style("fill-opacity", .4)
+		.on("mouseover", showTooltip)
+		.on("mouseout", function (d) {
+			d3.select("#tooltip").remove()
+			d3.select("#instruction2").style("visibility", "visible")
+		});
+
 
 	// append circle for female
 	gdots.append("circle")
@@ -1366,7 +1437,24 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value) {
 			d3.select("#instruction2").style("visibility", "visible")
 		});
 
+	// append text for low_warmth_comp chars
 	gdots.append("text")
+		.filter(d => !d.rank) //render data that has ranking, meaning they are in top 50
+		.attr("class", "low_warmth_comp_chars")
+		.text(function (d) { return d.char })
+		.attr("x", function (d) { return xMargin(d.warmth); })
+		.attr("y", function (d) { return yMargin(d.competence); })
+		.style("text-anchor", "middle")
+		.style("alignment-baseline", "middle")
+		.on("mouseover", showTooltip)
+		.on("mouseout", function (d) {
+			d3.select("#tooltip").remove()
+			d3.select("#instruction2").style("visibility", "visible")
+		});
+
+	// append text for top female and male chars	
+	gdots.append("text")
+		.filter(d => d.rank) //render data that has ranking, meaning they are in top 50
 		.text(function (d) { return d.char })
 		.attr("x", function (d) { return xMargin(d.warmth); })
 		.attr("y", function (d) { return yMargin(d.competence); })
