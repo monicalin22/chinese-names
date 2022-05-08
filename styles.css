@@ -49,6 +49,14 @@ h2 {
 	z-index: 6;
 }
 
+h3 {
+	font-family: 'Montserrat', sans-serif;
+	text-align: left;
+	font-size: 1.3rem;
+	font-weight: 600;
+	color: #CF623F;
+}
+
 .center-intro {
 	width: 100%;
 }
