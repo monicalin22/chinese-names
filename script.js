@@ -664,7 +664,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       .selectAll(".labelPoint g")
       .data(extendedThemes).enter().append("g")
       //.attr("transform", (d, i) => { return `translate(${parseInt((width)/1.5)} ${75 + 20*i})`});
-      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 15*i})`)
+      .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 28 - 15*i})`)
       .attr("class", "labelPoint")
 
     
