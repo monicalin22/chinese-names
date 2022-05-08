@@ -271,7 +271,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "beauty;plants;color",
+        "theme": "beauty;plants;precious",
         "meaning": "green, outstanding"
     },
     {
@@ -414,7 +414,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "beauty;plants;color",
+        "theme": "beauty;plants;precious",
         "meaning": "green, orchid"
     },
     {
@@ -1118,7 +1118,7 @@
         "rank_1980": 21,
         "rank_1990": 31,
         "rank_2000": 109,
-        "theme": "red;color;one",
+        "theme": "red;one",
         "meaning": "red"
     },
     {
@@ -1283,7 +1283,7 @@
         "rank_1980": 57,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;color",
+        "theme": "red",
         "meaning": "small, red"
     },
     {
@@ -1393,7 +1393,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;color",
+        "theme": "red",
         "meaning": "red, excellent"
     },
     {
@@ -1426,7 +1426,7 @@
         "rank_1980": 56,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;nature;color",
+        "theme": "red;nature",
         "meaning": "red, dawn"
     },
     {
@@ -1492,7 +1492,7 @@
         "rank_1980": 68,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "beauty;nature;color",
+        "theme": "beauty;nature",
         "meaning": "colors, dawn"
     },
     {
@@ -1591,7 +1591,7 @@
         "rank_1980": 71,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;color",
+        "theme": "red;beauty",
         "meaning": "voluptuous, red"
     },
     {
@@ -1635,7 +1635,7 @@
         "rank_1980": 74,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;color",
+        "theme": "red;beauty",
         "meaning": "red, voluptuous"
     },
     {
@@ -1690,7 +1690,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;color",
+        "theme": "red;nature",
         "meaning": "dawn, red"
     },
     {
@@ -1712,7 +1712,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;precious;color",
+        "theme": "red;precious",
         "meaning": "jade, red"
     },
     {
@@ -1734,7 +1734,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "red;color",
+        "theme": "red",
         "meaning": "spring, red"
     },
     {
@@ -1767,7 +1767,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "beauty;red;color",
+        "theme": "beauty;red",
         "meaning": "beautiful, red"
     },
     {
@@ -2262,7 +2262,7 @@
         "rank_1980": 80,
         "rank_1990": 82,
         "rank_2000": 109,
-        "theme": "color;one",
+        "theme": "moral;one",
         "meaning": "blue or green or black or young"
     },
     {
@@ -2372,7 +2372,7 @@
         "rank_1980": 97,
         "rank_1990": 109,
         "rank_2000": 109,
-        "theme": "color;one",
+        "theme": "precious;one",
         "meaning": "green"
     },
     {
@@ -2647,7 +2647,7 @@
         "rank_1980": 109,
         "rank_1990": 84,
         "rank_2000": 109,
-        "theme": "color",
+        "theme": "moral",
         "meaning": "green, green"
     },
     {
@@ -2955,7 +2955,7 @@
         "rank_1980": 109,
         "rank_1990": 109,
         "rank_2000": 59,
-        "theme": "beauty;color;one",
+        "theme": "beauty;one",
         "meaning": "vermilion"
     },
     {

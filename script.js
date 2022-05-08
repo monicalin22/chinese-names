@@ -43,6 +43,8 @@ Promise.all(ALL_URLS.map(u => fetch(u)))
 		rank_chart("decade-rank-f-red", name_parallel_ranks_f, ["red"]);
 		rank_chart("decade-rank-m-ocp", name_parallel_ranks_m, ["one"]);
 		rank_chart("decade-rank-f-ocp", name_parallel_ranks_f, ["one"]);
+		rank_chart("decade-rank-m-mod", name_parallel_ranks_m, ["family", "happy", "smart"]);
+		rank_chart("decade-rank-f-mod", name_parallel_ranks_f, ["family", "happy", "smart"]);
 
 		// Yu-Ying's visualization
 		createAllYYVisuals();
@@ -197,6 +199,8 @@ document.addEventListener("DOMContentLoaded", evt => {
 
 
 //Create historical rank chart
+
+//const theme_colours = d3.scaleOrdinal(d3.schemeCategory10);
 const theme_colours = d3.scaleOrdinal(d3.schemeCategory10);
 rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(data, data_maxrank, keyz, theme_colours, height) => 
 	
@@ -247,6 +251,8 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 	['nature', 'Natural Phenomena'],
 	['beauty', 'Beauty'],
   ])
+
+  const seenThemes = new Set();
   
   
   let curr_highlighted = "";
@@ -352,7 +358,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
     svg.selectAll(".pathsG").remove();
   svg.append("g").attr("class", "pathsG")
       .attr("fill", "none")
-      .attr("stroke-width", 4.5)
+      .attr("stroke-width", 2.5)
       .attr("stroke-opacity", 0.1)
     .selectAll("path")
     .data(data_rank)
@@ -365,6 +371,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       .attr("stroke", d => {
         let themes = d["theme"].split(';');
 		theme_colours(themes[0]);
+		seenThemes.add(themes[0]);
 
         //filter mode
         if(focus_theme.length > 0){
@@ -385,7 +392,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
           d3.select(this).transition()
                .duration('50')
                .attr('stroke-opacity', '1')
-               .attr('stroke-width', 7.5);
+               .attr('stroke-width', 5.5);
           
           nameDisp.html(`${d.target.__data__.name}`);
           nameDisp.transition()
@@ -408,14 +415,14 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
             })
             //.attr("width", height/50)
             .attr("stroke", "white")
-            .attr("stroke-width", 2)
+            .attr("stroke-width", 1.5)
             
      })
      .on('mouseout', function (d, i) {
           d3.select(this).transition()
                .duration('50')
                .attr('stroke-opacity', '0.1')
-               .attr('stroke-width', 4.5);
+               .attr('stroke-width', 2.5);
           svg.selectAll("rect")
             .filter(function() {
               return d3.select(this).attr("data-name") == d.target.__data__.name; // filter by name
@@ -509,7 +516,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                       }).transition()
                          .duration('50')
                          .attr('stroke-opacity', '1')
-                         .attr('stroke-width', 7.5);
+                         .attr('stroke-width', 5.5);
 
                   svg.selectAll("rect")
                       .filter(function() {
@@ -517,7 +524,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                       }).transition()
                          .duration('50')
                          .attr("stroke", "white")
-                          .attr("stroke-width", 2)
+                          .attr("stroke-width", 1.5)
                })
               
 
@@ -529,7 +536,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                       }).transition()
                          .duration('50')
                          .attr('stroke-opacity', '0.1')
-                         .attr('stroke-width', 4.5);
+                         .attr('stroke-width', 2.5);
 
                     svg.selectAll("rect")
                       .filter(function() {
@@ -595,7 +602,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                       }).transition()
                          .duration('50')
                          .attr('stroke-opacity', '1')
-                         .attr('stroke-width', 7.5);
+                         .attr('stroke-width', 5.5);
 
                   svg.selectAll("rect")
                       .filter(function() {
@@ -603,7 +610,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                       }).transition()
                          .duration('50')
                          .attr("stroke", "white")
-                          .attr("stroke-width", 2)
+                          .attr("stroke-width", 1.5)
                })
                .on('mouseout', function (d, i) {
                       svg.selectAll("rect")
@@ -621,7 +628,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                       }).transition()
                          .duration('50')
                          .attr('stroke-opacity', '0.1')
-                         .attr('stroke-width', 4.5);
+                         .attr('stroke-width', 2.5);
                })
           }
           
@@ -635,7 +642,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
   
   //draw legend
   
-  let extendedThemes = interactable ? theme_colours.domain() : focus_theme;
+  let extendedThemes = interactable ? Array.from(seenThemes) : focus_theme;
   if(interactable) extendedThemes.push("one");
 
   const renderLegend = () => {
@@ -646,6 +653,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
       //.attr("transform", (d, i) => { return `translate(${parseInt((width)/1.5)} ${75 + 20*i})`});
       .attr("transform", (d, i) => `translate(${(width)/1.5} ${height - 25 - 17*i})`)
       .attr("class", "labelPoint")
+
     
     legend.append("rect")
         .attr("width", height/75)
