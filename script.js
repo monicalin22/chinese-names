@@ -16,7 +16,7 @@ var top50char_data;
 var char_to_definition_data;
 var char_override_dict_data;
 var given_name_data;
-var low_warmth_comp_chars = ["纯", "财", "大", "汉", "官", "寒", "源", "贞", "震", "治", "珠"]
+var low_warmth_comp_chars = ["纯", "财", "大", "汉", "官", "寒", "冰", "源", "贞", "震", "治", "珠"]
 
 var ALL_DATA_LOADED = false;
 Promise.all(ALL_URLS.map(u => fetch(u)))
