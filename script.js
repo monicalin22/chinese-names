@@ -965,7 +965,6 @@ getYYData = function () {
 	top_m = makeChartData(top50char_data, given_name_data, char_to_definition_data, num_of_char, 'm', decade3);
 	combined_interactive_chart_data = top_f.concat(top_m);
 
-	
 	avg_value = calculateAvg(gender, decade3);
 	f_avg_value = calculateAvg('f', decade3);
 	m_avg_value = calculateAvg('m', decade3);
@@ -977,7 +976,6 @@ getYYData = function () {
 			competence: given_name_data[char]["name.competence"],
 			translation: char_to_definition_data[char]
 	}))
-	console.log(low_warmth_comp_chars_data)
 
 	// get name char line chart data
 	var char_input = document.getElementById("char_input").value ? document.getElementById("char_input").value : "英"
@@ -1405,7 +1403,6 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_wa
 			d3.select("#instruction2").style("visibility", "visible")
 		});
 
-
 	// append circle for female
 	gdots.append("circle")
 		.filter(d => d.gender === 'f')
@@ -1465,6 +1462,15 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_wa
 			d3.select("#tooltip").remove()
 			d3.select("#instruction2").style("visibility", "visible")
 		});
+
+	// check if checkbox is checked when redraw the viz
+	const showLowWarmthCompChars = document.getElementById
+		("low_warmth_comp_chars_checkbox").checked
+	if (!showLowWarmthCompChars) {
+		d3.selectAll(".low_warmth_comp_chars").style("display", "none")
+		document.getElementById
+			("low_warmth_comp_chars_checkbox").checked = false
+	}
 };
 
 createYYCharPpmVis = function (line_chart_data, name_char) {
