@@ -296,8 +296,7 @@
 				Our <a class="link" href=https://github.com/psychbruce/ChineseNames target=_blank>data source</a> 
 				can help us with this, as it gives 
 				three attributes/values to quantify the feelings each character may evoke: valence, warmth, and 
-				competence. In the following visualization, we explore the warmth and competence of the top 50 
-				characters found in both female and male names from the 1950s to 2000s.
+				competence. In the following visualization, we focus on the warmth and competence.
 				<br><br>
 				First, what are “warmth” and “competence,” according to a research paper titled, <a class="link"
 				href="https://journals.sagepub.com/doi/10.1177/0146167218769858" target=_blank>“Name Norms: 
@@ -312,7 +311,69 @@
 				imagine meeting them, and then asked to judge how likely, on a scale from 1 to 5, they would 
 				perceive this person as either warm or competent? These raters mainly utilized their preexisting 
 				knowledge of the characters in the names and their own intuition. <b>As such, It is important to 
-				note that these ratings are subjective. </b>
+				note that these ratings are subjective.</b>
+				<br><br>
+				The following visualization explores what characters were most popular from the 1950s to the 
+				2000s in female and male given names in relation to warmth and competence. Are there any 
+				relationships between names, gender, and warmth/competence? It turns out that regardless of 
+				gender, the top 50 characters of each decade display above-average warmth and competence. 
+				This may be because of the significance of naming children, so parents would never want to 
+				give their child a name that is vulgar as they want to manifest positive qualities.
+				<br><br>
+				Moreover, the overwhelming majority given name characters, including those not in the top 50, 
+				score at least 3 in either one or both of the values, such as <span class="highlight-char">
+				彬 (bin1 | warmth: 4.2 | competence: 3.5 | translation: cultivated; well-bred)</span> and <span class="highlight-char">
+				恩 (en1 | warmth: 3.9 | competence: 2.9 | translation: kindness; mercy; charity).</span> 
+				Notably, even though all of the characters are high in warmth and 
+				competence, the individual top characters for female and male newborns are quite different from 
+				one another, showing little overlap.
+				<br><br>
+				Between the 1950s to 1980s, female’s top characters were generally related to beauty, red, and 
+				flora, as we saw in our discussion above. Overall, these characters have high warmth values. In 
+				the 1990s and 2000s, the average competence values of female characters increased. We see 
+				more characters such as <span class="highlight-char">敏 (min3 | warmth: 3.7; 
+				competence: 3.9; translation: fast; quick; clever; smart | 11th in 1990s)</span>, <span class="highlight-char">欣 
+					(xin1 | warmth: 3.5 | competence: 3.4 | translation: happy; joyous; delighted | 3rd in 2000s)</span>, and 
+					<span class="highlight-char">
+					慧(hui4 | warmth: 4 | competence: 4.2 | translation: bright; intelligent | 7th in 2000s)</span>. 
+					These names have high competence 
+				and warmth than the characters that were related to beauty, red, and flora, and this change can be 
+				explained by the more positive feelings of the 1990s and 2000s as we discussed in our 
+				explanation of the era seeing an increase of popular names relating to "Joy & Happiness", 
+				"Family", and "Intelligence".
+				<br><br>
+				This increase in names with higher values of competence is also seen with male names during 
+				the 1990s and 2000s. In the 1950s and 1970s, male top characters covered a wide range of 
+				themes including “Nation”, “Wealth”, “Morality”, and “Achievement.” By the 1990s and 2000s, 
+				characters with higher warmth and competence were being selected, such as <span class="highlight-char">杰 
+				(jie2 | warmth: 3.9 | competence: 4.3 | translation: hero; heroic; outstanding | 
+				7th in 1990s)</span>, <span class="highlight-char">泽 (ze2 | 
+				warmth: 3.8 | competence: 3.9 | translation: grace; brilliance | 17th in 2000s)</span>, 
+				and <span class="highlight-char">嘉(jia1 | warmth: 4.3 | competence: 3.8 | translation: excellent; joyful; auspicious | 
+				18th in 2000s)</span>.
+				<br><br>
+				Notably, though average warmth of given characters among male and female newborns stays 
+				relatively similar throughout the decades, on average, characters given to males for their names 
+				are more competent. <b>The gap increases for average competence between male and female 
+				names in the 1990s and 2000s, displaying some biases towards gender, i.e. that parents had 
+				higher hopes for the competence of male children.<b>
+				<br><br>
+				If both genders’ characters have high warmth and competence and Chinese names are just 
+				words, why are certain characters used in either female or male names? The reason is 
+				straightforward. Take, for example, in English; you wouldn't name your daughter Greg, right? 
+				Similarly, with Chinese names, characters are often characterized as more feminine (e.g., 
+				flower-related words) or masculine (e.g., military-related words.) In Latin-based languages, 
+				words have genders, too.
+				<br><br>
+				Finally, we were curious about whether names that were less popular really had lower 
+				warmth/competence. To explore this question, we handpicked 12 characters that match this 
+				requirement and are among the top 50 most popular characters of any decade. Toggle the 
+				checkbox below to explore their meanings and ratings! 
+				<br><br>
+				In the end, both the top characters for female and male newborn names experienced changes 
+				throughout the times, but generally, the most popular characters tended to be more warm and 
+				competent as they represent the manifestation of parents’ dreams and attitudes when naming 
+				their children.
 			</p>
 		</div>
 	</div>
@@ -353,26 +414,9 @@
 			<svg id="combined-warmth-competence-vis" class="pairDisp"></svg>
 		</div>
 
-		<p class="caption">In general, the top 50 characters in the given names of each decade 
-			display above-average warmth and competence, regardless of gender. This may be because 
-			of the significance of naming children, so parents would never want give their child a 
-			name that is vulgar or negative.<br><br>
-			Additionally, the average warmth and competence of given names 
-			increases in parts per million throughout the decades, especially in the 1990s and 2000s. 
-			(Parts per million is just the normalized value/absolute number of how many people 
-			have the character in their name; you can think of it as similar to popularity, but not the exact same.)
-			This change can be explained in our analysis of this 
-			era as names related to "Joy & Happiness", "Family", and "Intelligence" increased in 
-			popularity. These kinds of names definitely contain words that are warmer/more competent.
-			<br><br>
-			Finally, though average warmth of given characters among male and female newborns stays 
-			relatively similar throughout the decades, on average, characters given to males for 
-			their names are more competent. The gap increases for average competence between male and 
-			female names in the 1990s and 2000s, displaying some biases towards gender, i.e. that 
-			parents had higher hopes for the competence of male children.<br><br>
-			(Note: Here, 1950 refers to pre-1960s, and the average lines in each decade 
-			are calculated for all 50 characters in that decade, regardless of how many 
-			you decide to display in the visualizations.)</p>
+		<p class="caption">
+			The average lines in each decade are calculated for all 50 characters in that decade, regardless of how many 
+			you decide to display in the visualizations.</p>
 	</div>
 	<!-- Warmth/competence viz -->
 
@@ -386,7 +430,9 @@
 				throughout history. You can enter in your own name, but we've also provided some celebrity 
 				names you can copy-and-paste below. <br><br>
 				The initial input is Ying (英), which means "petal/flower/leaf/brave/hero." 
-				This name has exponentially decreased in parts per million since the 1960s.
+				This name has exponentially decreased in parts per million since the 1960s. 
+				(Parts per million is just the normalized value/absolute number of how many people 
+				have the character in their name; you can think of it as similar to popularity, but not the exact same.)
 				<br><br>
 			</p>
 		</div>

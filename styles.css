@@ -172,6 +172,10 @@ ul {
 	line-height: 152%;
 }
 
+.highlight-char {
+	background-color: #E9C8C9;
+}
+
 .link:hover {
 	color: #E9C8C9;
 	text-decoration: wavy underline;
