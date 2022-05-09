@@ -269,19 +269,18 @@
 	</div>
 	
 	<div id="vis-container">
-		<h5>Pre-1960s Top 50 Names for Males & Females Throughout the Decades</h5>
+		<h5>The Prevalence of the Top 50 Names from the 1950s for Males & Females Throughout the Decades</h5>
 		<input id="decade-selector" type="range" min="1950" max="2000" value="1950" class="slider">
 		Decade Selected: <output id="output"></output>
 		<svg id="decade-prevalence-vis"></svg>
 		<p class="caption">
-			Interact with the slider above to see which of the pre-1960s top 50 names make it to each of 
+			Interact with the slider above to see which of the top 50 names from the 1950s make it to each of 
 			the following decades. <br><br>
-			Each tile represents one of the most popular 50 names from before the 1960s. In each tile, 
+			Each tile represents one of the most popular 50 names from the 1950s. In each tile, 
 			the blue area represents the proportion of male newborns have that given name, and the pink area 
 			represents the proportion of female newbowns have that given name. As you increase the decade 
 			value of the slider, you will see that some tiles fade to grey; this means that that name is 
-			no longer part of the top 50 most popular names of that given/selected decade. (Note: Here, 1950 
-			refers to pre-1960s.) 
+			no longer part of the top 50 most popular names of that given/selected decade.
 		</p>
 	</div>
 	<!-- End of viz -->
@@ -317,6 +316,12 @@
 			<option value="f">Female</option>
 		</select><br>
 
+		<label for="show_female_checkbox">Show Female's Top Characters</label>
+		<input type="checkbox" name="show_female_checkbox" id="show_female_checkbox" checked><br>
+
+		<label for="show_male_checkbox">Show Male's Top Characters</label>
+		<input type="checkbox" name="show_male_checkbox" id="show_male_checkbox" checked><br>
+		
 		<label for="low_warmth_comp_chars_checkbox">Show Low Warmth/Competence Characters</label>
 		<input type="checkbox" id="low_warmth_comp_chars_checkbox" name="low_warmth_comp_chars_checkbox" value="low_warmth_comp_chars">
 
@@ -358,9 +363,8 @@
 				throughout history. You can enter in your own name, but we've also provided some celebrity 
 				names you can copy-and-paste below. <br><br>
 				The initial input is Ying (英), which means "petal/flower/leaf/brave/hero." 
-					This name has exponentially decreased in parts per million since the 1960s.
+				This name has exponentially decreased in parts per million since the 1960s.
 				<br><br>
-				(Note: The below graph does not include characters from before the 1960s.)
 			</p>
 		</div>
 	</div>
@@ -417,7 +421,18 @@
 		<div id="text-container-end">
 			<h3 class="final-header">In the end, a name is not just a name.</h3>
 			<p>
-				Content
+				A Chinese name can tell us when a child was born, what their parents have 
+				experienced, how their parents have felt, and what their parents wished for 
+				their child's future. <br><br>
+				In moments of bleakness, such as in the 1960s and 1970s, parents faced many trials and 
+				tribulations because of Mao Zedong's attempts to again seize power, so they hoped that their children 
+				would grow up to see a better, kinder, more hospitable nation. 
+				In moments of hope, such as the 1990s and 2000s, new parents, who were the children of previous decades, 
+				dared to dream and live happily again in a reformed China brought about by Deng Xiaopeng. 
+				As a result, parents bestowed upon their children hopes of intellect, 
+				joy, and family, which was reflected in their given names.<br><br>
+				A name, then, is not just a name. Rather, it is a culmination of not only a country's history, but 
+				also one's familial history that is composed of experienced spanning hundreds of years and generations.
 			</p>
 		</div>
 	</div>

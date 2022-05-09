@@ -92,6 +92,8 @@ document.addEventListener("DOMContentLoaded", evt => {
 	decade_select_slider_yy = document.getElementById("decade-selector-yy");
 	num_char_slider_yy = document.getElementById("num-char-selector");
 	gender_dropdown_yy = document.getElementById("gender-selector");
+	show_female_checkbox = document.getElementById("show_female_checkbox")
+	show_male_checkbox = document.getElementById("show_male_checkbox")
 	low_warmth_comp_chars_checkbox_yy = document.getElementById("low_warmth_comp_chars_checkbox")
 	character_input_yy = document.getElementById("char_input")
 	character_select_yy = document.getElementById("char_select")
@@ -172,6 +174,26 @@ document.addEventListener("DOMContentLoaded", evt => {
 			}
 		}
 	});
+
+	show_female_checkbox.addEventListener("change", evt => {
+		const isChecked = document.getElementById("show_female_checkbox").checked
+		const female_chars_dots = document.querySelectorAll(".female_chars")
+		if (isChecked) {
+			female_chars_dots.forEach(dot => dot.style.display = 'block')
+		} else {
+			female_chars_dots.forEach(dot => dot.style.display = 'none')
+		}
+	})
+
+	show_male_checkbox.addEventListener("change", evt => {
+		const isChecked = document.getElementById("show_male_checkbox").checked
+		const male_chars_dots = document.querySelectorAll(".male_chars")
+		if (isChecked) {
+			male_chars_dots.forEach(dot => dot.style.display = 'block')
+		} else {
+			male_chars_dots.forEach(dot => dot.style.display = 'none')
+		}
+	})
 
 	low_warmth_comp_chars_checkbox_yy.addEventListener("change", evt => {
 		const isChecked = document.getElementById("low_warmth_comp_chars_checkbox").checked
@@ -1464,7 +1486,8 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_wa
 	// append circle for female
 	gdots.append("circle")
 		.filter(d => d.gender === 'f')
-		.attr("class", "dot")
+		.attr("class", "female_chars")
+		//.attr("class", "dot")
 		.attr("r", 18)
 		.attr("cx", function (d) { return xMargin(d.warmth); })
 		.attr("cy", function (d) { return yMargin(d.competence); })
@@ -1480,6 +1503,7 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_wa
 	const rectWidth = 30
 	gdots.append("rect")
 		.filter(d => d.gender === 'm')
+		.attr("class", "male_chars")
 		.attr("x", d => { return xMargin(d.warmth) - rectWidth / 2 })
 		.attr("y", d => { return yMargin(d.competence) - rectWidth / 2 })
 		.attr("width", 30)
@@ -1510,6 +1534,7 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_wa
 	// append text for top female and male chars	
 	gdots.append("text")
 		.filter(d => d.rank) //render data that has ranking, meaning they are in top 50
+		.attr("class", d => d.gender === 'f' ? "female_chars" : "male_chars")
 		.text(function (d) { return d.char })
 		.attr("x", function (d) { return xMargin(d.warmth); })
 		.attr("y", function (d) { return yMargin(d.competence); })
@@ -1528,6 +1553,19 @@ createYYCombinedVisualization = function (data, m_avg_value, f_avg_value, low_wa
 		d3.selectAll(".low_warmth_comp_chars").style("display", "none")
 		document.getElementById
 			("low_warmth_comp_chars_checkbox").checked = false
+	}
+	const showFemaleChars = document.getElementById("show_female_checkbox").checked
+	if (!showFemaleChars) {
+		d3.selectAll(".female_chars").style("display", "none")
+		document.getElementById
+			("show_female_checkbox").checked = false
+	}
+
+	const showMaleChars = document.getElementById("show_male_checkbox").checked
+	if (!showMaleChars) {
+		d3.selectAll(".male_chars").style("display", "none")
+		document.getElementById
+			("show_male_checkbox").checked = false
 	}
 };
 
