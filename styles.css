@@ -119,6 +119,7 @@ a {
 
 * {
 	font-family: 'Work Sans', sans-serif;
+	color: #1A191C;
 }
 
 .pairDisp {
@@ -141,6 +142,13 @@ a {
 	padding:          10px 20px 50px 20px;
 }
 
+#text-container-brian-viz {
+	width:            56%;
+	margin:           auto;
+	margin-top:       25px;
+	padding:          10px 20px 50px 20px;
+}
+
 #text-container-end {
 	width:            56%;
 	margin:           auto;
@@ -150,6 +158,16 @@ a {
 #brown 
 {
 	background-color: #F7F2EC;
+}
+
+.link {
+	font-weight: 600;
+	color: #CF623F;
+}
+
+.link:hover {
+	color: #E9C8C9;
+	text-decoration: wavy underline;
 }
 
 .famous_ppl_list {
