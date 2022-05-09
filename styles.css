@@ -173,6 +173,15 @@ a {
 	text-decoration: wavy underline;
 }
 
+.wu-link {
+	color: #CF623F;
+}
+
+.wu-link:hover {
+	color: #EBDFCF;
+	text-decoration: wavy underline;
+}
+
 .famous_ppl_list {
 	display: flex;
 	text-align: center;
