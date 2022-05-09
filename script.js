@@ -259,7 +259,7 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
 	['achievement', 'Achievement'],
 	['army', 'Military'],
 	['moral', 'Morals & Ethics'],
-	['nation', 'Nation & Nationbuilding'],
+	['nation', 'Nation & Nation-Building'],
 	['plants', 'Flora'],
 	['nature', 'Natural Phenomena'],
 	['beauty', 'Beauty'],
