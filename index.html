@@ -455,7 +455,47 @@
 					&emsp; Finally, we also learned more about modern Chinese history from <a class="wu-link" href=
 					"https://faculty.washington.edu/stevehar/timeframe.html" target=_blank>this source by the University of Washington</a>.
 					<br><br>
-				
+				<b>Methodology</b><br>
+					&emsp; The <a class="wu-link" href="https://github.com/psychbruce/ChineseNames" 
+					target=_blank>dataset</a> consists of Chinese surnames and given names separated into 6 
+					time periods: pre-1960s, 1960s, 1970s, 1980s, 1990s, and 2000s (2000-2008). It contains 
+					nationwide frequency statistics of 1,806 Chinese surnames and 2,614 Chinese characters used 
+					in given names, covering about 1.2 billion Han Chinese population. <u>We focus on given 
+					names.</u> Specifically, we use the top 100 given names per time period (first visualization) 
+					and the top 50 most popular characters in any given name per time period (rest of the 
+					visualizations). <br>
+					&emsp; This data source also has functions for computing qualities of Chinese names, such as 
+					warmth and competence, which we used in our third visualization. <i>For more information 
+					about the dataset and definitions of warmth and competence, please refer to our main 
+					article.</i><br>
+					&emsp; The data itself was already clean, but we did have to find English translations for 
+					characters through  <a class="wu-link" href="http://hanzidb.org/character-list" target=_blank>an online API</a>, which we used 
+					for visualizations of the top 50 characters. For the top 100 characters per decade used in our 
+					first visualization, two members of our team (Brian & Yu-Ying), who are native Mandarin 
+					speakers, translated 500+ characters by hand, categorized them by theme, and cross-checked 
+					their translations/categorization. Additionally, we wrote a parser script in Python to make 
+					translations easier. Finally, we made a mapping of translations using JSON.<br>
+					&emsp; For uploading the data in JavaScript, Jeffrey and Brian utilized prior knowledge and 
+					Google queries. For the visualization itself, we coded them by hand and did not really take direct 
+					inspiration from any existing algorithms, though we did take inspiration from our initial 
+					motivations, related work, and techniques that we learned in class.
+					<br><br>
+				<b>Implementation</b><br>
+					&emsp; As mentioned above, we used an API we found online and hand-translations by team 
+					members to translate the Chinese characters in the dataset to appropriate English definitions. 
+					We coded a <a class="wu-link" href="files/parser.py">parser in Python</a>
+					to automate the translation process and made a JSON mapping of translations. <br>
+					&emsp; For loading data, we used JavaScript; this is in the beginning of our “script.js” file. 
+					Specifically, we have JavaScript “Promises” that fetch from some URLs stored in GitHub pages. 
+					<a class="wu-link" href="https://monicalin22.github.io/chinese-names/data/char_to_definition.json?fbclid=IwAR1t8CZZCd1DiENGbUfKxYLGTz29heCqs41kmdNllROJGE1ANbXoR3c1Q-s" 
+					target=_blank>Click here for an example.</a><br>
+					&emsp; Finally, for the visualizations, we originally built them in Observable Notebook using D3, 
+					but we switched over to HTML, CSS, and JavaScript (Vanilla JS) in order to host on our own 
+					website. We preferred the aesthetics of our own website, and thought that Vanilla JS was easier 
+					to work with. We did not utilize any special code we found on the internet when creating our 
+					visualizations. <br>
+					&emsp; There are no performance issues that we are aware of.
+					<br><br>
 			</p>
 		</div>
 	</div>
