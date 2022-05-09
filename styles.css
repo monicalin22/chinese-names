@@ -108,7 +108,7 @@ a:hover {
 }
 
 a {
-	color: black;
+	color: #1A191C;
 	text-decoration: none;
 }
 
@@ -119,7 +119,6 @@ a {
 
 * {
 	font-family: 'Work Sans', sans-serif;
-	color: #1A191C;
 }
 
 .pairDisp {
