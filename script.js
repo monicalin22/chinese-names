@@ -74,7 +74,7 @@ var decade3 = 1950;
 
 // Settings
 num_of_char = 25;
-gender = "m"
+gender = "all"
 
 update_decade_in_html = () => {
 	document.getElementById("output").innerHTML = decade2;
@@ -1183,6 +1183,11 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 		//     .attr("height", "180px")
 		//     .style("fill", "#d9d9d9")
 		//     .style("opacity", "0.5")
+		function formatGender(gender) {
+			if (gender === 'f') return 'Female'
+			if (gender === 'm') return 'Male'
+			if (gender === 'all') return 'All'
+		}
 		tgrp.append("text")
 			.style("fill", "black")
 			.style("opacity", "1")
@@ -1197,7 +1202,7 @@ createYYVisualization = function (data, interactive_chart_data, avg_value) {
 			.attr("dx", 10)
 			.attr("dy", 25)
 			.append("tspan")
-			.text(`Gender: ${data.gender === 'f' ? "Female" : "Male"}`)
+			.text(`Gender: ${formatGender(data.gender)}`)
 			.attr("x", 0)
 			.attr("dx", 10)
 			.attr("dy", 25)
