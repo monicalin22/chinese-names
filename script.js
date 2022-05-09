@@ -406,6 +406,13 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
                .duration('50')
                .attr('stroke-opacity', '1')
                .attr('stroke-width', 5.5);
+
+			svg.selectAll(".tick>text")
+			   .nodes()
+			   .filter(t => t.innerHTML == d.target.__data__.name)
+					 .forEach(a => {
+						 a.parentNode.parentNode.appendChild(a.parentNode);
+					 })
           
           nameDisp.html(`${d.target.__data__.name}`);
           nameDisp.transition()
@@ -599,6 +606,13 @@ rank_chart =  (svgname, data_rank, keyz = null, interactable = false) => {//(dat
               .attr("data-name", d => d.name)
               
               .on('mouseover', function (d, i) {
+					svg.selectAll(".tick>text")
+					.nodes()
+					.filter(t => t.innerHTML == d.target.__data__.name)
+						  .forEach(a => {
+							  a.parentNode.parentNode.appendChild(a.parentNode);
+						  })
+
                     nameDisp.html(`${d.target.__data__.name}`);
                     nameDisp.transition()
                          .duration(50)
