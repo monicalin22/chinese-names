@@ -991,7 +991,7 @@ appendNameCharOptions = function appendNameCharOptions(given_name_data, char_to_
 	const select_element = document.getElementById("char_select")
 	const chars = Object.keys(given_name_data)
 	let emptyOption = document.createElement("option")
-	emptyOption.text = "select a char"
+	emptyOption.text = "select a character"
 	emptyOption.value = undefined
 	select_element.appendChild(emptyOption)
 	chars.forEach(char => {
