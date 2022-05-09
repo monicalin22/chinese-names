@@ -85,7 +85,7 @@
 			our very best to convey them in English. We hope that the translations will be insightful 
 			and interesting to you!
 			</p>
-			<h4 id="beg-of-history">The Impact of History on Chinese Names</h4>
+			<h4 id="beg-of-history">The Impact of Modern History on Chinese Names</h4>
 			<p>
 			The characters of Chinese names were impacted by the historical contexts 
 			during which they were given, and our first visualizations take a deeper look 
@@ -125,12 +125,12 @@
 		</div>
 	</div>
 	<div id="vis-container">
-		<h5>Male & Female Names Related to Nation/National Recovery</h5>
+		<h5>Top 100 Male & Female Names Related to Nation/National Recovery</h5>
 		<div>
 			<svg id="decade-rank-m-nation" class="pairDisp"></svg>
 			<svg id="decade-rank-f-nation" class="pairDisp"></svg>
 		</div>
-		<p class="caption">Male names are shown on the left, and female names on the right.<br><br>
+		<p class="caption">Top 100 Male names are shown on the left, and top 100 female names on the right.<br><br>
 			At the time, female children were less expected to be concerned with affairs of the state, 
 			hence, it was much less common for female names to be about the nation and nation-building. 
 			This pattern reflects the gender attitudes of the period.</p>
@@ -158,7 +158,7 @@
 		</div>
 	</div>
 	<div id="vis-container">
-		<h5>Male & Female Names Related to the Cultural Revolution (Military & Red)</h5>
+		<h5>Top 100 Male & Female Names Related to the Cultural Revolution (Military & Red)</h5>
 		<div>
 			<svg id="decade-rank-m-red" class="pairDisp"></svg>
 			<svg id="decade-rank-f-red" class="pairDisp"></svg>
@@ -190,7 +190,7 @@
 		</div>
 	</div>
 	<div id="vis-container">
-		<h5>Male & Female Single-Character Names</h5>
+		<h5>Top 100 Male & Female Single-Character Names</h5>
 		<div><svg id="decade-rank-m-ocp" class="pairDisp"></svg>
 		<svg id="decade-rank-f-ocp" class="pairDisp"></svg></div>
 		<p class="caption">
@@ -213,7 +213,7 @@
 		</div>
 	</div>
 	<div id="vis-container">
-		<h5>Male & Female Names Related to Intelligence, Joy & Happiness, and Family</h5>
+		<h5>Top 100 Male & Female Names Related to Intelligence, Joy & Happiness, and Family</h5>
 		<div><svg id="decade-rank-m-mod" class="pairDisp"></svg>
 		<svg id="decade-rank-f-mod" class="pairDisp"></svg></div>
 		<p class="caption">
@@ -247,9 +247,9 @@
 		</div>
 	</div>
 	<div id="vis-container">
-		<h5>Top 100 Male Names Throughout History</h5>
+		<h5>Top 100 Male Names Throughout Modern History</h5>
 		<svg id="decade-rank-m"></svg>
-		<h5>Top 100 Female Names Throughout History</h5>
+		<h5>Top 100 Female Names Throughout Modern History</h5>
 		<svg id="decade-rank-f"></svg>
 	</div>
 	<!-- END -->
@@ -269,19 +269,18 @@
 	</div>
 	
 	<div id="vis-container">
-		<h5>Pre-1960s Top 50 Names for Males & Females Throughout the Decades</h5>
+		<h5>The Prevalence of the Top 50 Names from the 1950s for Males & Females Throughout the Decades</h5>
 		<input id="decade-selector" type="range" min="1950" max="2000" value="1950" class="slider">
 		Decade Selected: <output id="output"></output>
 		<svg id="decade-prevalence-vis"></svg>
 		<p class="caption">
-			Interact with the slider above to see which of the pre-1960s top 50 names make it to each of 
+			Interact with the slider above to see which of the top 50 names from the 1950s make it to each of 
 			the following decades. <br><br>
-			Each tile represents one of the most popular 50 names from before the 1960s. In each tile, 
+			Each tile represents one of the most popular 50 names from the 1950s. In each tile, 
 			the blue area represents the proportion of male newborns have that given name, and the pink area 
 			represents the proportion of female newbowns have that given name. As you increase the decade 
 			value of the slider, you will see that some tiles fade to grey; this means that that name is 
-			no longer part of the top 50 most popular names of that given/selected decade. (Note: Here, 1950 
-			refers to pre-1960s.) 
+			no longer part of the top 50 most popular names of that given/selected decade.
 		</p>
 	</div>
 	<!-- End of viz -->
@@ -365,9 +364,8 @@
 				throughout history. You can enter in your own name, but we've also provided some celebrity 
 				names you can copy-and-paste below. <br><br>
 				The initial input is Ying (英), which means "petal/flower/leaf/brave/hero." 
-					This name has exponentially decreased in parts per million since the 1960s.
+				This name has exponentially decreased in parts per million since the 1960s.
 				<br><br>
-				(Note: The below graph does not include characters from before the 1960s.)
 			</p>
 		</div>
 	</div>
@@ -446,14 +444,14 @@
 			<h6>Write-Up</h6>
 			<p class="write-up-font">
 				<b>Introduction</b><br>
-					&emsp; Our group consists of 4 members who all have Chinese heritage, so looking through the 
+					&emsp; Our group consists of 4 members who all have Han Chinese heritage, so looking through the 
 					dataset, we understood the definitions of isolated characters and wondered why our parents named 
 					us the way they did. More generally, we wondered: “What influences a Chinese name?” <br> 
-					&emsp; One obvious answer was gender, a deciding factor in all cultures. Other 
+					&emsp; One obvious answer was gender, a deciding factor in most cultures. Other 
 					potential influences included history and parents’ wishes for their children, i.e. 
-					naming a child a word meaning “smart” might help them grow up smarter.<br>
+					naming a child a word meaning “smart” might mean that they wanted their child to grow up smarter.<br>
 					&emsp; We realized that Chinese names are rich with meaning and information, so we were 
-					eager to learn more about the people of China, the times they lived through, and their hopes for 
+					eager to learn more about the people of Mainland China, the times they lived through, and their hopes for 
 					the future, all through the names they gave their children.
 					<br><br>
 				<b>Related Work</b><br>
@@ -470,14 +468,15 @@
 					target=_blank>dataset</a> consists of Chinese surnames and given names separated into 6 
 					time periods: pre-1960s, 1960s, 1970s, 1980s, 1990s, and 2000s. It contains 
 					nationwide frequency statistics of 1,806 Chinese surnames and 2,614 Chinese characters used 
-					in given names, covering about 1.2 billion Han Chinese population. <u>We focus on given 
+					in given names, covering about 1.2 billion Han Chinese people. <u>We focus on given 
 					names</u>, specifically, the top 100 given names per decade (first visualization) 
 					and the top 50 most popular characters in any given name decade (all other 
-					visualizations). This data source also has functions for computing qualities of Chinese names, such as 
+					visualizations). This data source also has information on qualities of Chinese names, such as 
 					warmth and competence, which we used in our third visualization.<br>
 					&emsp; The data was already cleaned, but we wanted to find English translations for 
 					characters and discovered <a class="wu-link" href="http://hanzidb.org/character-list" target=_blank>an API</a>. 
-					For the top 100 characters per decade used in our first visualization, Brian and Yu-Ying, 
+					Since Chinese names have more nuance and meaning than the API could provide, 
+					for the top 100 given names per decade used in our first visualization, Brian and Yu-Ying, 
 					who are native Mandarin speakers, translated 500+ characters by hand and categorized them by theme.<br>
 					&emsp; We utilized prior knowledge of JS to upload data, and we coded 
 					the visualizations ourselves, taking inspiration from our motivations  
@@ -485,9 +484,9 @@
 					<br><br>
 				<b>Design</b><br>
 					&emsp; For our first visualization, we encoded decade as horizontal positioning 
-					and popularity of the given name as vertical positioning, giving the viewer a lot of 
+					and the ranking of the given name as vertical positioning, giving the viewer a lot of 
 					information effectively. Because the chart is complex, encoding themes of meanings as color can 
-					help the user see more general trends, which is vital to make the connecrion with historical context. 
+					help the user see more general trends, which is vital to connecting it with historical context. 
 					Hovering over each name shows the user its meaning; including each meaning in the main 
 					visualization itself would have been far too overwhelming. We originally did not have a way to 
 					filter the themes and did not break down the visualization/highlight important takeaways, but these 
@@ -500,9 +499,9 @@
 					Offering more information on hover helps uncrowd the visualization, and giving the user 
 					customizability of all inputs encourages exploration.<br>
 					&emsp; For our final visualization, we highlighted important time periods and 
-					labelled them, making it easy for users to see what period may have affected the name they 
+					labelled them, making it easy for users to see what periods may have affected the name they 
 					selected. The visualization is interactive, giving users two different methods for searching up 
-					characters to cater to both non-native and native Chinese speakers.
+					characters in order to cater to both non-Chinese speakers as well.
 					<br><br>					
 				<b>Implementation</b><br>
 					&emsp; As mentioned above, we used an API we found online and hand-translations by team 
@@ -510,25 +509,25 @@
 					We coded a <a class="wu-link" href="files/parser.py">parser in Python</a>
 					to automate the translation process and made a JSON mapping of translations. <br>
 					&emsp; For loading data, we used JavaScript; this is in the beginning of our “script.js” file. 
-					Specifically, we have JavaScript “Promises” that fetch from some URLs stored in GitHub pages. 
+					Specifically, we have JavaScript “Promises” that fetches from some URLs stored in GitHub pages. 
 					<a class="wu-link" href="https://monicalin22.github.io/chinese-names/data/char_to_definition.json?fbclid=IwAR1t8CZZCd1DiENGbUfKxYLGTz29heCqs41kmdNllROJGE1ANbXoR3c1Q-s" 
 					target=_blank>Click here for an example.</a><br>
-					&emsp; Finally, for the visualizations, we originally built them in Observable Notebook using D3, 
+					&emsp; Finally, for the visualizations, we originally built them in an Observable Notebook using D3, 
 					but we switched over to HTML, CSS, and JavaScript (Vanilla JS) as we preferred the aesthetics of 
 					our own website. All code is our own, and there are no performance issues that we are aware of.
 					<br><br>
 				<b>Discussion</b></br>
 					&emsp; We believe that our final design is quite successful! Many students came up 
-					to us during and after class to compliment our work. In the end, we created visualizations 
-					that answered our initial 
-					questions, satisfied our motivations, and interwove Chinese names and modern history.<br>
+					to us during and after class to compliment our work, especially Chinese and Chinese Americans who relate to the contents of our work.
+					In the end, we created visualizations that answered our initial 
+					questions, satisfied our motivations, and interwove Chinese names with the influences of modern Chinese history.<br>
 					&emsp; We believe there is little-to-no confusion for our final visualizations. We received 
 					feedback from previous class sessions that we implemented to curb confusion, 
 					i.e. our first visualization was originally condensed/hard-to-follow, but we expanded it and 
 					added features to make it easier to read. Some viewers were also initially 
 					confused by our second visualization and its main takeaway, but with 
-					accompanying captions/text, we hope that that is cleared up.<br>
-					&emsp; Finally, we gleaned insight into the true impact of history on the identity and 
+					accompanying captions/text, we hope that this provided more clarity.<br>
+					&emsp; Finally, we gleaned insight into the impact of history on the identity and 
 					experience of Chinese people. Though we have each heard much about the Cultural Revolution as an 
 					event, these visualizations have helped us personalize and individualize historical 
 					experiences. Moreover, we learned about the prevalences of our own names, and we believe that 
@@ -545,29 +544,45 @@
 					&emsp; For our last visualization, we want to allow the user to input multiple characters 
 					and compare trends of all those selected side-by-side. We also want to make the celebrity 
 					names clickable and include more history regarding each celebrity’s name. <br>
-					&emsp; Finally, we would like user test with people not in our class to 
+					&emsp; Finally, we would like to conduct user tests with people not in our class to 
 					get opinions from people who may not be as familiar with our work.<br>
 					<br><br>
 				<b>Acknowledgements & References</b><br>
 					<ul class="write-up-font">
 					<li>
 						<a class="wu-link" href="https://github.com/psychbruce/ChineseNames" 
-						target=_blank>Our dataset.</a>
+						target=_blank>Original Dataset by Bao, H.-W.-S.</a>
 					</li>
 					<li><a class="wu-link" href=
 					"(https://kontinentalist.com/stories/a-cultural-history-of-han-chinese-names-for-girls-and-boys-in-china" 
-					target=_blank>“What can we tell from the evolution of Han Chinese names?”</a>
+					target=_blank>“What can we tell from the evolution of Han Chinese names? By Isabella Chua”</a>
 					</li>
 					<li>
 						<a class="wu-link" href=
 						"https://faculty.washington.edu/stevehar/timeframe.html" 
-						target=_blank>Modern history in China.</a>
+						target=_blank>Modern history in China. By Stevan Harrell</a>
 					</li>
 					<li>
 						<a class="wu-link" href="http://hanzidb.org/character-list" target=_blank>English translations API.</a>
 					</li>
 					</ul>
-				<h6>Thank you! &#8212 ✨ Brian, Yu-Ying, Jeffrey, & Monica 🥳 🧧 🐼</h6>
+				
+					<br/>
+				<p class="write-up-font">
+					<b>Page Layout & Design:</b> Monica <br/>
+					<b>Page Programming & Python Parser: </b> Jeffrey <br/>
+					<b>Name Translation and Catagorisation:</b> Brian & Yu-Ying<br/>
+					<b>Intro and Historical Writeup:</b> Brian & Monica<br/>
+					<b>Editing, Proofreading, and Final Write-up:</b> Monica<br/>
+					<b>Vis #1 - Top 100 Name Ranking & Themes:</b> Brian<br/>
+					<b>Vis #2 - Condensing Historical Trends:</b> Jeffrey<br/>
+					<b>Vis #3 - Warmth & Competence and Gender Attitudes:</b> Yu-Ying<br/>
+					<b>Vis #4 - Modern History of Your Name:</b> Yu-Ying<br/>
+					<br/>
+				</p>
+				<br/>
+				<h6>Thank you! &#8212 ✨ Brian 马绍恩, Yu-Ying 李昱瑩, Jeffrey 骆花雷, & Monica 林子惠 🥳 🧧 🐼</h6>
+
 			</p>
 		</div>
 	</div>
