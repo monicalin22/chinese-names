@@ -330,7 +330,9 @@
 			of the significance of naming children, so parents would never want give their child a 
 			name that is vulgar or negative.<br><br>
 			Additionally, the average warmth and competence of given names 
-			increases throughout the decades, especially in the 1990s and 2000s. 
+			increases in parts per million throughout the decades, especially in the 1990s and 2000s. 
+			(Parts per million is just the normalized value/absolute number of how many people 
+			have the character in their name; you can think of it as similar to popularity, but not the exact same.)
 			This change can be explained in our analysis of this 
 			era as names related to "Joy & Happiness", "Family", and "Intelligence" increased in 
 			popularity. These kinds of names definitely contain words that are warmer/more competent.
@@ -356,7 +358,7 @@
 				throughout history. You can enter in your own name, but we've also provided some celebrity 
 				names you can copy-and-paste below. <br><br>
 				The initial input is Ying (英), which means "petal/flower/leaf/brave/hero." 
-					This name has exponentially decreased in popularity since the 1960s.
+					This name has exponentially decreased in parts per million since the 1960s.
 				<br><br>
 				(Note: The below graph does not include characters from before the 1960s.)
 			</p>
@@ -421,86 +423,74 @@
 	</div>
 
 	<!-- Write-up -->
-	<div id="black">
+	<div id="write-up">
 		<div id="text-container-end">
 			<h6>Write-Up</h6>
-			<p class="write-up">
+			<p class="write-up-font">
 				<b>Introduction</b><br>
 					&emsp; Our group consists of 4 members who all have Chinese heritage, so looking through the 
-					dataset, we each had questions. We wondered why certain Chinese names for American 
-					celebrities, such as Trump, were picked by Chinese people, and we understood that Chinese 
-					names have meanings since we understood the individual characters/words that made them up. 
-					As such, our next logical question was: “What influencers Chinese names?” <br> 
-					&emsp; One obvious answer was gender, a factor that influences names in all cultures; in 
-					Chinese specifically, though, how would gender affect names? Other hypotheses of influences 
-					included time periods/history, location/geography, and parents’ wishes for their children, i.e. 
-					naming a child a word meaning “smart” might just help them grow up to be smarter. (Given the 
-					dataset, we were able to explore all of the aforementioned influences, except 
-					location/geography.) <br>
+					dataset, we understood the definitions of isolated characters and wondered why our parents named 
+					us the way they did. More generally, we wondered: “What influences a Chinese name?” <br> 
+					&emsp; One obvious answer was gender, a deciding factor in all cultures. Other 
+					potential influences included history and parents’ wishes for their children, i.e. 
+					naming a child a word meaning “smart” might help them grow up to be smarter.<br>
 					&emsp; We realized that Chinese names are rich with meaning and information, so we were 
 					eager to learn more about the people of China, the times they lived through, and their hopes for 
 					the future through the names they gave their children.
 					<br><br>
 				<b>Related Work</b><br>
-					&emsp; There has been some work on visualizing names, such as <a class="wu-link" href=
+					&emsp; Some visualizations of data with names, such as <a class="wu-link" href=
 					"https://pudding.cool/2019/05/hyphens/" target=_blank>The Rise of Hyphenated 
 					Last Names in Pro Sports” by <i>The Pudding</i></a> and <a class="wu-link" href=
-					"https://www.bewitched.com/namevoyager.html" target=_blank>"The Name Voyager"</a> 
-					These gave us some initial ideas into how we could analyze and visualize names.<br>
+					"https://www.bewitched.com/namevoyager.html" target=_blank>"The Name Voyager"</a>, 
+					gave us some initial ideas as to how we could analyze and visualize names.<br>
 					&emsp; We also found an article, <a class="wu-link" href=
 					"(https://kontinentalist.com/stories/a-cultural-history-of-han-chinese-names-for-girls-and-boys-in-china" 
 					target=_blank>“What can we tell from the evolution 
-					of Han Chinese names?”</a>, that helped us get an initial understanding of 
-					modern history in China, Han Chinese Names, and the relationship between the two.<br>
+					of Han Chinese names?”</a>, that gave us an initial understanding of 
+					modern history in China and Han Chinese Names.<br>
 					&emsp; Finally, we also learned more about modern Chinese history from <a class="wu-link" href=
 					"https://faculty.washington.edu/stevehar/timeframe.html" target=_blank>this source by the University of Washington</a>.
 					<br><br>
 				<b>Methodology</b><br>
 					&emsp; The <a class="wu-link" href="https://github.com/psychbruce/ChineseNames" 
 					target=_blank>dataset</a> consists of Chinese surnames and given names separated into 6 
-					time periods: pre-1960s, 1960s, 1970s, 1980s, 1990s, and 2000s (2000-2008). It contains 
+					time periods: pre-1960s, 1960s, 1970s, 1980s, 1990s, and 2000s. It contains 
 					nationwide frequency statistics of 1,806 Chinese surnames and 2,614 Chinese characters used 
 					in given names, covering about 1.2 billion Han Chinese population. <u>We focus on given 
-					names.</u> Specifically, we use the top 100 given names per time period (first visualization) 
-					and the top 50 most popular characters in any given name per time period (rest of the 
-					visualizations). <br>
-					&emsp; This data source also has functions for computing qualities of Chinese names, such as 
-					warmth and competence, which we used in our third visualization. <i>For more information 
-					about the dataset and definitions of warmth and competence, please refer to our main 
-					article.</i><br>
-					&emsp; The data itself was already clean, but we did have to find English translations for 
-					characters through <a class="wu-link" href="http://hanzidb.org/character-list" target=_blank>an online API</a>, which we used 
-					for visualizations of the top 50 characters. For the top 100 characters per decade used in our 
-					first visualization, two members of our team (Brian & Yu-Ying), who are native Mandarin 
-					speakers, translated 500+ characters by hand, categorized them by theme, and cross-checked 
-					their translations/categorization. Additionally, we wrote a parser script in Python to make 
-					translations easier. Finally, we made a mapping of translations using JSON.<br>
-					&emsp; For uploading the data in JavaScript, Jeffrey and Brian utilized prior knowledge and 
-					Google queries. For the visualization itself, we coded them by hand and did not really take direct 
-					inspiration from any existing algorithms, though we did take inspiration from our initial 
-					motivations, related work, and techniques that we learned in class.
+					names</u>, specifically, the top 100 given names per decade (first visualization) 
+					and the top 50 most popular characters in any given name decade (all other 
+					visualizations). This data source also has functions for computing qualities of Chinese names, such as 
+					warmth and competence, which we used in our third visualization.<br>
+					&emsp; The data was already clean, but we wanted to find English translations for 
+					characters and discovered <a class="wu-link" href="http://hanzidb.org/character-list" target=_blank>an API</a>. 
+					For the top 100 characters per decade used in our first visualization, Brian and Yu-Ying, 
+					who are native Mandarin speakers, translated 500+ characters by hand and categorized them by theme.
+					&emsp; We utilized prior knowledge and Google queries when uploading data, and we coded 
+					the visualization itself ourselves, taking inspiration from our initial 
+					motivations, related work, and class lectures, but not existing algorithms.
 					<br><br>
 				<b>Design</b><br>
-					&emsp; For our first visualization, we encoded decade/time period with horizontal positioning 
-					and popularity of the given name with vertical positioning, allowing us to the viewer a lot of 
-					information effectively. Because the chart is busy, encoding themes of meanings with color can 
-					help the user see more general trends, which is important in lieu of historical context. Hovering 
-					over each name allows the user to see its meaning because including each meaning in the main 
+					&emsp; For our first visualization, we encoded decade as horizontal positioning 
+					and popularity of the given name as vertical positioning, giving the viewer a lot of 
+					information effectively. Because the chart is complex, encoding themes of meanings as color can 
+					help the user see more general trends, which is vital to make the connecrion with historical context. 
+					Hovering over each name shows the user its meaning; including each meaning in the main 
 					visualization itself would have been far too overwhelming. We originally did not have a way to 
 					filter the themes and did not break down the visualization/highlight important takeaways, but by 
 					adding these features in, we made the visualization more understandable, digestible, and 
 					interactive.<br>
 					&emsp; For our second visualization, we encoded the gender proportion of the name as color 
-					and space, making it easy for viewers to differentiate female/male popularity of the name.<br> 
-					&emsp; For our third visualization, we encoded gender as color and used dots to encode the 
-					average warmth and competence values of each character, allowing the viewer to see both 
-					values at once. Including a line of the average values for both metrics helps the users compare 
-					a single character/dot to a baseline. Offering more information on hover helps uncrowd the 
-					visualization, and giving the user customizability of all inputs encourages exploration.<br>
-					&emsp; For our final visualization, we highlighted important time periods in a special color and 
+					and space.<br> 
+					&emsp; For our third visualization, we again encoded gender as color and used dots to encode both the 
+					average warmth and competence values of each character at once. Including a 
+					line of the averages of both metrics offers a baseline for comparison. 
+					Offering more information on hover helps uncrowd the visualization, and giving the user 
+					customizability of all inputs encourages exploration.<br>
+					&emsp; For our final visualization, we highlighted important time periods and 
 					labeled them, making it easy for users to see what period may have affected the name they 
 					selected. The visualization is interactive, giving users two different methods for searching up 
-					characters, catering to both non-native and native Chinese speakers.
+					characters to cater to both non-native and native Chinese speakers.
 					<br><br>					
 				<b>Implementation</b><br>
 					&emsp; As mentioned above, we used an API we found online and hand-translations by team 
@@ -518,33 +508,33 @@
 					visualizations. <br>
 					&emsp; There are no performance issues that we are aware of.
 					<br><br>
-				<b>Discussion<b></br>
-						&emsp; We believe that our final visual encoding and interaction design was generally quite 
-						successful! We had many students come up to us during and after class to commend us on our 
-						work and give positive reactions. In the end, we created visualizations that answered our initial 
-						questions, satisfied our motivations, and tied together Chinese names and modern history.<br>
-						&emsp; For the majority of our final visualizations, there was no confusion. We received 
-						feedback from previous sessions in the semester that we implemented to curb any confusion, 
-						i.e. our first visualization was originally condensed and hard to follow, but we expanded it and 
-						added features to make it easier to read and interact with. Some viewers were also initially 
-						confused by our second visualization and its intended main takeaway, but with the 
-						accompanying captions/text, we hope that that is cleared up.<br>
-						&emsp; Finally, for new insights, we learned about the true impact of history on the identity and 
-						experience of Chinese people. Though we heard a lot about the Cultural Revolution as an 
-						event, these visualizations have helped us personalize and individualize that historical 
-						experience. Moreover, we learned about the prevalences of our own names. For the general 
-						audience, we have given them an overview of Chinese history, which is often overlooked in 
-						American schools, and hopefully piqued their interest in cultures vastly different from theirs. Our 
-						visualizations serve as an interesting introduction to exploration of Chinese culture.
-						<br><br>						
+				<b>Discussion</b></br>
+					&emsp; We believe that our final design is quite successful! Many students came up 
+					to us during and after class to compliment our 
+					work. In the end, we created visualizations that answered our initial 
+					questions, satisfied our motivations, and interwove Chinese names and modern history.<br>
+					&emsp; We believe there is little-to-no confusion for our final visualizations. We received 
+					feedback from previous class sessions that we implemented to curb confusion, 
+					i.e. our first visualization was originally condensed/hard-to-follow, but we expanded it and 
+					added features to make it easier to read. Some viewers were also initially 
+					confused by our second visualization and its main takeaway, but with 
+					accompanying captions/text, we hope that that is cleared up.<br>
+					&emsp; Finally, we gleaned insight into the true impact of history on the identity and 
+					experience of Chinese people. Though we have each heard much about the Cultural Revolution as an 
+					event, these visualizations have helped us personalize and individualize historical 
+					experiences. Moreover, we learned about the prevalences of our own names, and we believe that 
+					other Chinese viewers will feel the same way. For our wider 
+					audience, we have given them an overview of Chinese history, which is often overlooked in 
+					American schools, and hopefully piqued their interest in cultures vastly different from theirs.
+					<br><br>						
 				<b>Future Work</b><br>
-					&emsp; Regarding research, though we did have time to get a general overview of historical 
-					events, we would like to research gender history and social history more in-depth. <br>
-					&emsp; For our second visualization, we would like to make an accompanying visualization that 
-					shows the top 50 characters per decade based on which decade was selected, rather than just 
+					&emsp; Regarding research, in addition to the general overview of events, 
+					we want to research gender history and social history more in-depth. <br>
+					&emsp; For our second visualization, we want to create an accompanying visualization that 
+					shows the top 50 characters per decade based on which decade was selected, rather than only 
 					tracking the survivability of pre-1960s names. <br>
-					&emsp; For our last visualization, we would like to allow the user to input multiple characters 
-					and compare trends of all those selected side-by-side. We would also like to make the celebrity 
+					&emsp; For our last visualization, we want to allow the user to input multiple characters 
+					and compare trends of all those selected side-by-side. We also want to make the celebrity 
 					names clickable and include more history regarding each celebrity’s name. <br>
 					&emsp; Finally, we would like to do some user testing with our visualizations outside of class to 
 					get opinions from people who may not be as familiar with our work.<br>
