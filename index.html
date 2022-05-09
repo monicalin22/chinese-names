@@ -433,18 +433,13 @@
 					us the way they did. More generally, we wondered: “What influences a Chinese name?” <br> 
 					&emsp; One obvious answer was gender, a deciding factor in all cultures. Other 
 					potential influences included history and parents’ wishes for their children, i.e. 
-					naming a child a word meaning “smart” might help them grow up to be smarter.<br>
+					naming a child a word meaning “smart” might help them grow up smarter.<br>
 					&emsp; We realized that Chinese names are rich with meaning and information, so we were 
 					eager to learn more about the people of China, the times they lived through, and their hopes for 
-					the future through the names they gave their children.
+					the future, all through the names they gave their children.
 					<br><br>
 				<b>Related Work</b><br>
-					&emsp; Some visualizations of data with names, such as <a class="wu-link" href=
-					"https://pudding.cool/2019/05/hyphens/" target=_blank>The Rise of Hyphenated 
-					Last Names in Pro Sports” by <i>The Pudding</i></a> and <a class="wu-link" href=
-					"https://www.bewitched.com/namevoyager.html" target=_blank>"The Name Voyager"</a>, 
-					gave us some initial ideas as to how we could analyze and visualize names.<br>
-					&emsp; We also found an article, <a class="wu-link" href=
+					We found found an article, <a class="wu-link" href=
 					"(https://kontinentalist.com/stories/a-cultural-history-of-han-chinese-names-for-girls-and-boys-in-china" 
 					target=_blank>“What can we tell from the evolution 
 					of Han Chinese names?”</a>, that gave us an initial understanding of 
@@ -462,13 +457,13 @@
 					and the top 50 most popular characters in any given name decade (all other 
 					visualizations). This data source also has functions for computing qualities of Chinese names, such as 
 					warmth and competence, which we used in our third visualization.<br>
-					&emsp; The data was already clean, but we wanted to find English translations for 
+					&emsp; The data was already cleaned, but we wanted to find English translations for 
 					characters and discovered <a class="wu-link" href="http://hanzidb.org/character-list" target=_blank>an API</a>. 
 					For the top 100 characters per decade used in our first visualization, Brian and Yu-Ying, 
 					who are native Mandarin speakers, translated 500+ characters by hand and categorized them by theme.<br>
-					&emsp; We utilized prior knowledge and Google queries when uploading data, and we coded 
-					the visualization itself ourselves, taking inspiration from our initial 
-					motivations, related work, and class lectures, but not existing algorithms.
+					&emsp; We utilized prior knowledge of JS to upload data, and we coded 
+					the visualizations ourselves, taking inspiration from our motivations  
+					and class lectures, but not existing algorithms.
 					<br><br>
 				<b>Design</b><br>
 					&emsp; For our first visualization, we encoded decade as horizontal positioning 
@@ -477,9 +472,8 @@
 					help the user see more general trends, which is vital to make the connecrion with historical context. 
 					Hovering over each name shows the user its meaning; including each meaning in the main 
 					visualization itself would have been far too overwhelming. We originally did not have a way to 
-					filter the themes and did not break down the visualization/highlight important takeaways, but by 
-					adding these features in, we made the visualization more understandable, digestible, and 
-					interactive.<br>
+					filter the themes and did not break down the visualization/highlight important takeaways, but these 
+					new features made the visualization more understandable, digestible, and interactive.<br>
 					&emsp; For our second visualization, we encoded the gender proportion of the name as color 
 					and space.<br> 
 					&emsp; For our third visualization, we again encoded gender as color and used dots to encode both the 
@@ -488,7 +482,7 @@
 					Offering more information on hover helps uncrowd the visualization, and giving the user 
 					customizability of all inputs encourages exploration.<br>
 					&emsp; For our final visualization, we highlighted important time periods and 
-					labeled them, making it easy for users to see what period may have affected the name they 
+					labelled them, making it easy for users to see what period may have affected the name they 
 					selected. The visualization is interactive, giving users two different methods for searching up 
 					characters to cater to both non-native and native Chinese speakers.
 					<br><br>					
@@ -502,16 +496,13 @@
 					<a class="wu-link" href="https://monicalin22.github.io/chinese-names/data/char_to_definition.json?fbclid=IwAR1t8CZZCd1DiENGbUfKxYLGTz29heCqs41kmdNllROJGE1ANbXoR3c1Q-s" 
 					target=_blank>Click here for an example.</a><br>
 					&emsp; Finally, for the visualizations, we originally built them in Observable Notebook using D3, 
-					but we switched over to HTML, CSS, and JavaScript (Vanilla JS) in order to host on our own 
-					website. We preferred the aesthetics of our own website, and thought that Vanilla JS was easier 
-					to work with. We did not utilize any special code we found on the internet when creating our 
-					visualizations. <br>
-					&emsp; There are no performance issues that we are aware of.
+					but we switched over to HTML, CSS, and JavaScript (Vanilla JS) as we preferred the aesthetics of 
+					our own website. All code is our own, and there are no performance issues that we are aware of.
 					<br><br>
 				<b>Discussion</b></br>
 					&emsp; We believe that our final design is quite successful! Many students came up 
-					to us during and after class to compliment our 
-					work. In the end, we created visualizations that answered our initial 
+					to us during and after class to compliment our work. In the end, we created visualizations 
+					that answered our initial 
 					questions, satisfied our motivations, and interwove Chinese names and modern history.<br>
 					&emsp; We believe there is little-to-no confusion for our final visualizations. We received 
 					feedback from previous class sessions that we implemented to curb confusion, 
@@ -524,11 +515,11 @@
 					event, these visualizations have helped us personalize and individualize historical 
 					experiences. Moreover, we learned about the prevalences of our own names, and we believe that 
 					other Chinese viewers will feel the same way. For our wider 
-					audience, we have given them an overview of Chinese history, which is often overlooked in 
-					American schools, and hopefully piqued their interest in cultures vastly different from theirs.
+					audience, we give an overview of Chinese history, which is often overlooked in 
+					American schools. Hopefully, our work piqued their interest in cultures vastly different from theirs.
 					<br><br>						
 				<b>Future Work</b><br>
-					&emsp; Regarding research, in addition to the general overview of events, 
+					&emsp; Regarding research, in addition to the general events, 
 					we want to research gender history and social history more in-depth. <br>
 					&emsp; For our second visualization, we want to create an accompanying visualization that 
 					shows the top 50 characters per decade based on which decade was selected, rather than only 
@@ -536,7 +527,7 @@
 					&emsp; For our last visualization, we want to allow the user to input multiple characters 
 					and compare trends of all those selected side-by-side. We also want to make the celebrity 
 					names clickable and include more history regarding each celebrity’s name. <br>
-					&emsp; Finally, we would like to do some user testing with our visualizations outside of class to 
+					&emsp; Finally, we would like user test with people not in our class to 
 					get opinions from people who may not be as familiar with our work.<br>
 					<br><br>
 				<b>Acknowledgements & References</b><br>
