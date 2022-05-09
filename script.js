@@ -910,6 +910,7 @@ createVisual = function (data, char_to_definition, char_override_dict) {
 				.text(defn);
 
 			if (!(chars1950.has(char_))) { // If doesn't exist, make it partly transparent
+				rect.style("fill", "#BBBBBB");
 				rect.attr("opacity", 0.15);
 				text.style("fill", "#BBBBBB");
 				text2.style("fill", "#BBBBBB");

@@ -229,22 +229,40 @@
 			"Intelligence".
 		</p>
 	</div>
+
+	<!-- Jeffrey's viz -->
 	<div id="brown">
 		<div id="text-container">
 			<h4>Condensing Historical Trends & Prevalence Through the Decades</h4>
 			<p>
-				hello
+				As you've seen above, Chinese names have really changed since before the 1960s, 
+				reflecting the zeitgest and gender attitudes of the times people have lived through.<br><br>
+				Below is a visualization depicting what 50 most popular names from before 1960s are 
+				still among the 50 most popular in the 2000s. 
+				<b>You can see that hardly any names continue to make through to the top 50 in the 2000s.</b>
 			</p>
 		</div>
 	</div>
 	
 	<div id="vis-container">
-		<h5>Prevalence Through Decades</h5>
+		<h5>Pre-1960s Top 50 Names for Males & Females Throughout the Decades</h5>
 		<input id="decade-selector" type="range" min="1950" max="2000" value="1950" class="slider">
 		Decade Selected: <output id="output"></output>
 		<svg id="decade-prevalence-vis"></svg>
+		<p class="caption">
+			Interact with the slider above to see which of the pre-1960s top 50 names make it to each of 
+			the following decades. <br><br>
+			Each tile represents one of the most popular 50 names from before the 1960s. In each tile, 
+			the blue area represents the proportion of male newborns have that given name, and the pink area 
+			represents the proportion of female newbowns have that given name. As you increase the decade 
+			value of the slider, you will see that some tiles fade to grey; this means that that name is 
+			no longer part of the top 50 most popular names of that given/selected decade. (Here, 1950 
+			refers to pre-1960s.) 
+		</p>
 	</div>
+	<!-- End of viz -->
 
+	<!-- Warmth/competence viz -->
 	<div id="brown">
 		<div id="text-container">
 			<h4>Warmth & Competence in Relation to Gender Attitudes</h4>
@@ -280,11 +298,21 @@
 
 		<p class="caption">hi</p>
 	</div>
+	<!-- Warmth/competence viz -->
 
+	<!-- Enter in your char viz -->
 	<div id="brown">
 		<div id="text-container">
 		<div>
-			<h4>Some famous people's names</h4>
+			
+		</div>
+		</div>
+	</div>
+	<div id="vis-container">
+		<h5>Look up the history of your own name!</h5>
+		<p class="caption">Or, if you don't know/have a Chinese name, try copy-and-pasting one 
+			of the names of a famous Chinese person below!
+		</p>
 			<ul class="famous_ppl_list">
 				<li>
 					<figure>
@@ -317,21 +345,20 @@
 					</figure>
 				</li>
 			</ul>
-		</div>
-		</div>
-	</div>
-	<div id="vis-container">
 		<div>
-			<label for="char_input">Enter a Character</label>
+			<label for="char_input">Enter a Character:</label>
 			<input type="text" id="char_input" name="char_input" placeholder="enter a character">
 		</div>
+		<p>OR</p>
 		<div>
-			<label for="char_select">Select a Character</label>
+			<label for="char_select">Select a Character:</label>
 			<select name="char_select" id="char_select"></select>
 		</div>
 		<svg id="character_ppm"></svg>
 	</div>
+	<!-- End of viz -->
 
+	<!-- Conclusion -->
 	<div id="brown">
 		<div id="text-container-end">
 			<h3 class="final-header">In the end, a name is not just a name.</h3>
@@ -341,6 +368,7 @@
 		</div>
 	</div>
 
+	<!-- Write-up -->
 	<div id="black">
 		<div id="text-container-end">
 			<h6>Write-Up</h6>
