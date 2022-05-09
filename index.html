@@ -256,7 +256,7 @@
 			the blue area represents the proportion of male newborns have that given name, and the pink area 
 			represents the proportion of female newbowns have that given name. As you increase the decade 
 			value of the slider, you will see that some tiles fade to grey; this means that that name is 
-			no longer part of the top 50 most popular names of that given/selected decade. (Here, 1950 
+			no longer part of the top 50 most popular names of that given/selected decade. (Note: Here, 1950 
 			refers to pre-1960s.) 
 		</p>
 	</div>
@@ -265,15 +265,20 @@
 	<!-- Warmth/competence viz -->
 	<div id="brown">
 		<div id="text-container">
-			<h4>Warmth & Competence in Relation to Gender Attitudes</h4>
+			<h4>Warmth & Competence and Gender Attitudes</h4>
 			<p>
-				hi
+				ENTER CONTENT HERE
 			</p>
 		</div>
 	</div>
 
 	<div id="vis-container">
-		<h5>Warmth and Competence</h5>
+		<h5>Warmth & Competence</h5>
+		<p class="caption">
+			<i>The left visualization separates male and female newborn names, while the 
+				right visualization showcases both at once.
+			</i> 
+		</p>
 		Select Number of Characters:
 		<input id="num-char-selector" type="range" min="1" max="50" value="25" class="slider">
 		<output id="num-char-output"></output><br>
@@ -296,23 +301,42 @@
 			<svg id="combined-warmth-competence-vis" class="pairDisp"></svg>
 		</div>
 
-		<p class="caption">hi</p>
+		<p class="caption">In general, the top 50 characters in the given names of each decade 
+			display above-average warmth and competence, regardless of gender. This may be because 
+			of the significance of naming children, so parents would never want give their child a 
+			name that is vulgar or negative.<br><br>
+			Additionally, the average warmth and competence of given names 
+			increases throughout the decades, especially in the 1990s and 2000s. 
+			This change can be explained in our analysis of this 
+			era as names related to "Joy & Happiness", "Family", and "Intelligence" increased in 
+			popularity. These kinds of names definitely contain words that are warmer/more competent.
+			<br><br>
+			Finally, though average warmth of given characters among male and female newborns stays 
+			relatively similar throughout the decades, on average, characters given to males for 
+			their names are more competent. The gap increases for average competence between male and 
+			female names in the 1990s and 2000s, displaying some biases towards gender, i.e. that 
+			parents had higher hopes for the competence of male children.<br><br>
+			(Note: Here, 1950 refers to pre-1960s, and the average lines in each decade 
+			are calculated for all 50 characters in that decade, regardless of how many 
+			you decide to display in the visualizations.)</p>
 	</div>
 	<!-- Warmth/competence viz -->
 
 	<!-- Enter in your char viz -->
 	<div id="brown">
 		<div id="text-container">
-		<div>
-			
-		</div>
+			<h4>Look up the history of your own name!</h4>
+			<p>
+				Now that you've learned a decent amount of information regarding Chinese names, 
+				we wanted to give you a chance to individually track a name you might be interested in 
+				throughout history. You can enter in your own name, but we've also provided some celebrity 
+				names you can copy-and-paste below.
+			</p>
 		</div>
 	</div>
+
 	<div id="vis-container">
-		<h5>Look up the history of your own name!</h5>
-		<p class="caption">Or, if you don't know/have a Chinese name, try copy-and-pasting one 
-			of the names of a famous Chinese person below!
-		</p>
+		<h5>Copy-and-paste the name of a famous person below, or enter in a name you know.</h5>
 			<ul class="famous_ppl_list">
 				<li>
 					<figure>
