@@ -168,12 +168,18 @@ a {
 	color: #CF623F;
 }
 
+ul {
+	color: white;
+	line-height: 152%;
+}
+
 .link:hover {
 	color: #E9C8C9;
 	text-decoration: wavy underline;
 }
 
 .wu-link {
+	font-weight: 600;
 	color: #CF623F;
 }
 
