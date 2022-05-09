@@ -76,6 +76,23 @@ h5 {
 	font-weight: 600;
 }
 
+h6 {
+	font-family: 'Montserrat', sans-serif;
+	text-align: left;
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: white;
+}
+
+.final-header {
+	font-family: 'Marcellus', serif;
+	text-align: left;
+	font-size: 1.85rem;
+	font-weight: 600;
+	color: #CF623F;
+	padding-top: 30px;
+}
+
 .center-intro {
 	width: 100%;
 }
@@ -124,6 +141,12 @@ a {
 	padding:          10px 20px 60px 20px;
 }
 
+#text-container-end {
+	width:            50%;
+	margin:           auto;
+	padding:          10px 20px 120px 20px;
+}
+
 #brown 
 {
 	background-color: #F7F2EC;
@@ -147,4 +170,13 @@ a {
 	font-size: 1rem;
 	font-weight: 400;
 	line-height: 150%;
+}
+
+#black {
+	padding-top: 80px;
+	background-color: black;
+}
+
+.write-up {
+	color: white;
 }
