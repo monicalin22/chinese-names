@@ -115,15 +115,13 @@ a {
 	width:            50%;
 	margin:           auto;
 	padding:          25px 20px 60px 20px;
-	border-radius:    8px;
 }
 
 #text-container {
 	width:            50%;
 	margin:           auto;
-	margin-top:       75px;
-	padding:          10px 20px 10px 20px;
-	border-radius:    8px;
+	margin-top:       25px;
+	padding:          10px 20px 60px 20px;
 }
 
 #brown 
@@ -145,7 +143,8 @@ a {
 }
 
 .caption {
+	font-family: "Montserrat", sans-serif;
 	font-size: 1rem;
-	font-weight: 300;
-	line-height: 160%;
+	font-weight: 400;
+	line-height: 150%;
 }
