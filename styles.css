@@ -194,6 +194,7 @@ ul {
 
 .famous_ppl_list {
 	display: flex;
+	flex-wrap: wrap;
 	text-align: center;
 	justify-content: space-between;
 	padding: 0;
@@ -204,6 +205,10 @@ ul {
 	margin: 0;
 	font-weight: 700;
 	text-align: center;
+}
+
+#char_select {
+	max-width: 100%;
 }
 
 .caption {
