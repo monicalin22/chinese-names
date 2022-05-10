@@ -225,3 +225,7 @@ ul {
 .unbold {
 	font-weight: 400;
 }
+
+.era-img {
+	max-width: 100%;
+}
