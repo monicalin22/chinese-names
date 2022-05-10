@@ -293,13 +293,13 @@ transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, -webkit-transf
 .cursor-dot {
 width: 4.4px;
 height: 4.4px;
-background-color: #5A1600;
+background-color: #63B0DC;
 }
 
 .cursor-dot-outline {
 width: 28px;
 height: 28px;
-background-color: #5A160020;
+background-color: #63B0DC60;
 }
 
 .cursor-dot,
