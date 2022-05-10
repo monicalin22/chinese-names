@@ -16,7 +16,7 @@ body {
 .sliding-background {
 	background: url("assets/slide.svg") repeat-x;
 	height: 81px;
-	width: 4568.46px;
+	width: 4440.46px;
 	animation: slide 60s linear infinite;
   }
   
@@ -25,7 +25,7 @@ body {
 	  transform: translate3d(0, 0, 0);
 	}
 	100%{
-	  transform: translate3d(-1522.82px, 0, 0);
+	  transform: translate3d(-1480.153333333px, 0, 0);
 	}
   }
 
