@@ -259,6 +259,12 @@ ul {
 	max-width: 100%;
 }
 
+.banner-img {
+	max-width: 100%;
+	padding-top: 32px;
+	padding-bottom: 15px;
+}
+
 /* Custom Cursor */
 
 html,
